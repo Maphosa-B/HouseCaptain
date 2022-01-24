@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:ViewModels.Shopping="clr-namespace:HouseCaptain.ViewModels.Shopping"
+             xmlns:fontAwesome="clr-namespace:FontAwesome"
+             x:Class="HouseCaptain.Views.Shopping.AddShoppingItemPage">
+    <ContentPage.BindingContext>
+        <ViewModels.Shopping:AddShoppingItemViewModel/>
+    </ContentPage.BindingContext>
+
+    <Grid Margin="3">
+
+        <!--Frames which are below are for those bubble which are used for decorations-->
+        <Frame Opacity="0.1"
+            BackgroundColor="{StaticResource BarBackround}"
+            CornerRadius="280"
+            HorizontalOptions="StartAndExpand"
+            VerticalOptions="StartAndExpand"
+            HeightRequest="400"
+            Margin="-200,-100,0,0"
+            WidthRequest="400">
+
+        </Frame>
+
+        <Frame Opacity="0.7"
+            BackgroundColor="{StaticResource BarBackround}"
+            CornerRadius="280"
+            HorizontalOptions="EndAndExpand"
+            VerticalOptions="StartAndExpand"
+            HeightRequest="200"
+            Margin="0,100,-100,-200"
+            WidthRequest="200">
+
+        </Frame>
+
+        <Frame Opacity="0.3"
+            BackgroundColor="{StaticResource BarBackround}"
+            CornerRadius="280"
+            HorizontalOptions="EndAndExpand"
+            VerticalOptions="EndAndExpand"
+            HeightRequest="400"
+            Margin="0,0,-200,-100"
+            WidthRequest="400">
+
+        </Frame>
+
+        <Frame Opacity="0.7"
+            BackgroundColor="{StaticResource BarBackround}"
+            CornerRadius="280"
+            HorizontalOptions="StartAndExpand"
+            VerticalOptions="EndAndExpand"
+            HeightRequest="120"
+            Margin="0,0,0,180"
+            WidthRequest="120">
+
+        </Frame>
+
+
+        <!--`This below stack layout encapsulate form elements-->
+        <StackLayout Padding="20"
+                     VerticalOptions="CenterAndExpand">
+            <Entry Placeholder="Name"
+                   Margin="0,20,0,0"
+                   PlaceholderColor="{StaticResource BarBackround}"/>
+            <Entry Placeholder="Quantity"
+                   Margin="0,15,0,0"
+                   PlaceholderColor="{StaticResource BarBackround}" />
+            <Picker Margin="0,20,0,0"
+                    ItemsSource="{Binding CategoriesList}"
+                    SelectedIndex="1"/>
+
+            <Editor IsSpellCheckEnabled="True"
+                    AutoSize="TextChanges"
+                    Placeholder="Description"
+                    Margin="0,20,0,0"
+                    PlaceholderColor="{StaticResource BarBackround}"/>
+        </StackLayout>
+
+        <!--This frameis used as a button to process and add data-->
+        <Frame BackgroundColor="{StaticResource BarBackround}"
+               HorizontalOptions="EndAndExpand"
+               VerticalOptions="EndAndExpand"
+               WidthRequest="100"
+               HeightRequest="100"
+               CornerRadius="90"
+               Margin="-30,-30,-40,-30"
+               BorderColor="White">
+            <StackLayout>
+                <Label TextColor="White"
+                       Text="+"
+                       HorizontalOptions="CenterAndExpand"
+                       VerticalOptions="CenterAndExpand"
+                       FontSize="70"
+                       Margin="0,0,0,40"/>
+            </StackLayout>
+
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding GoToAddGroceryPageCommand}"/>
+            </Frame.GestureRecognizers>
+        </Frame>
+    </Grid>
+</ContentPage>

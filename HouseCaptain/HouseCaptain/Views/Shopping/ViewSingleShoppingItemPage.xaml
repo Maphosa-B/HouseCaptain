@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ViewModels.Shopping="clr-namespace:HouseCaptain.ViewModels.Shopping"
+             xmlns:fontawesome="clr-namespace:FontAwesome"
+             x:Class="HouseCaptain.Views.Shopping.ViewSingleShoppingItemPage">
+
+
+
+    <ContentPage.BindingContext>
+        <ViewModels.Shopping:ViewSingleShoppingItemViewModel/>
+    </ContentPage.BindingContext>
+
+    <Grid Margin="3">
+
+        <!--Frames which are below are for those bubble which are used for decorations-->
+        <Frame Opacity="0.1"
+            BackgroundColor="{StaticResource BarBackround}"
+            CornerRadius="280"
+            HorizontalOptions="StartAndExpand"
+            VerticalOptions="StartAndExpand"
+            HeightRequest="400"
+            Margin="-200,-100,0,0"
+            WidthRequest="400">
+
+        </Frame>
+
+        <Frame Opacity="0.7"
+            BackgroundColor="{StaticResource BarBackround}"
+            CornerRadius="280"
+            HorizontalOptions="EndAndExpand"
+            VerticalOptions="StartAndExpand"
+            HeightRequest="200"
+            Margin="0,100,-100,-200"
+            WidthRequest="200">
+
+        </Frame>
+
+        <Frame Opacity="0.3"
+            BackgroundColor="{StaticResource BarBackround}"
+            CornerRadius="280"
+            HorizontalOptions="EndAndExpand"
+            VerticalOptions="EndAndExpand"
+            HeightRequest="400"
+            Margin="0,0,-200,-100"
+            WidthRequest="400">
+
+        </Frame>
+
+
+        <StackLayout>
+            <Frame Margin="20"
+                   Padding="0"
+                   CornerRadius="180">
+                <Image Source="{Binding ImgUrl}" 
+                       Aspect="AspectFill"/>
+            </Frame>
+
+            <StackLayout VerticalOptions="StartAndExpand"
+                         Margin="20"
+                         Padding="10">
+                <Label Text="{Binding Name}"
+                            FontSize="30"
+                           
+                           HorizontalOptions="StartAndExpand"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource BarBackround}"/>
+                <BoxView BackgroundColor="{StaticResource BarBackround}"
+                         HeightRequest="3"
+                         Margin="0,0,0,20"
+                         WidthRequest="200"
+                         HorizontalOptions="StartAndExpand"/>
+
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="{x:Static fontawesome:FontAwesomeIcons.CartArrowDown}"
+                               FontSize="20"
+                               FontFamily="FAS"
+                               TextColor="{StaticResource BarBackround}"/>
+                    <Label Text="{Binding Quantity}"
+                               FontSize="23"
+                               TranslationY="-3"
+                               TextColor="Gray"/>
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="{x:Static fontawesome:FontAwesomeIcons.ClipboardList}"
+                               FontSize="20"
+                               FontFamily="FAS"
+                               TextColor="{StaticResource BarBackround}"/>
+                    <Label Text="{Binding Notes}"
+                               FontSize="23"
+                               TranslationY="-3"
+                              TextColor="Gray"/>
+                </StackLayout>
+            </StackLayout>
+
+
+        </StackLayout>
+
+        <!--Button to view history of grocery list-->
+        <Frame BackgroundColor="{StaticResource BarBackround}"
+               HorizontalOptions="EndAndExpand"
+               VerticalOptions="EndAndExpand"
+               WidthRequest="120"
+               HeightRequest="100"
+               CornerRadius="70"
+               Margin="100,0,20,-70"
+               BorderColor="White">
+
+            <Button Text="{x:Static fontawesome:FontAwesomeIcons.Trash}"
+                    TextColor="White"
+                    FontFamily="FAS"
+                    BackgroundColor="Transparent"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="CenterAndExpand"
+                    FontSize="30"
+                    Margin="-40,-40,0,0" 
+                   Command="{Binding GoToGroceryHistoryPageCommand}"/>
+
+        </Frame>
+
+        <!--Button to add Item-->
+        <Frame BackgroundColor="{StaticResource BarBackround}"
+               HorizontalOptions="EndAndExpand"
+               VerticalOptions="EndAndExpand"
+               WidthRequest="100"
+               HeightRequest="100"
+               CornerRadius="90"
+               Margin="-30,-30,-40,-30"
+               BorderColor="White">
+            <StackLayout>
+
+                <Button Text="{x:Static fontawesome:FontAwesomeIcons.Check}"
+                        TextColor="White"
+                        FontFamily="FAS"
+                        BackgroundColor="Transparent"
+                        HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="CenterAndExpand"
+                        FontSize="50"
+                        Margin="0,-20,0,0" 
+                        Command="{Binding GoToAddGroceryPageCommand}"/>
+            </StackLayout>
+        </Frame>
+
+
+    </Grid>
+
+
+</ContentPage>

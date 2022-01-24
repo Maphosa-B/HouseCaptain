@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Shell xmlns="http://xamarin.com/schemas/2014/forms" 
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:Shopping="clr-namespace:HouseCaptain.Views.Shopping"
+       xmlns:Chores="clr-namespace:HouseCaptain.Views.Chores"
+       xmlns:fontawesome="clr-namespace:FontAwesome"
+       Title="HouseCaptain"
+       x:Class="HouseCaptain.AppShell">
+
+    <Shell.Resources>
+        <ResourceDictionary>
+            <Style x:Key="BaseStyle" TargetType="Element">
+                <Setter Property="Shell.BackgroundColor" Value="{StaticResource BarBackround}" />
+                <Setter Property="Shell.ForegroundColor" Value="{StaticResource UnselectedItems}" />
+
+                <Setter Property="Shell.TitleColor" Value="{StaticResource UnselectedItems}" />
+
+                <Setter Property="Shell.DisabledColor" Value="Black" />
+                <Setter Property="Shell.UnselectedColor" Value="{StaticResource UnselectedItems}" />
+                <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource BarBackround}" />
+                <Setter Property="Shell.TabBarForegroundColor" Value="{StaticResource SelectedItem}"/>
+
+                <Setter Property="Shell.TabBarUnselectedColor" Value="{StaticResource UnselectedItems}"/>
+                <Setter Property="Shell.TabBarTitleColor" Value="Black"/>
+            </Style>
+            <Style TargetType="TabBar" BasedOn="{StaticResource BaseStyle}" />
+            <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}" />
+        </ResourceDictionary>
+    </Shell.Resources>
+
+
+
+    <TabBar>
+
+        <!--Grocery Tab-->
+        <Tab Title="Shopping">
+            <!--Grocery Icon-->
+            <Tab.Icon>
+                <FontImageSource FontFamily="FAS" Glyph="{x:Static fontawesome:FontAwesomeIcons.CartArrowDown}" />
+            </Tab.Icon>
+
+            <!--Tabs within Grocery-->
+            <ShellContent Title="To Do"  Route="PendingTasksPage" ContentTemplate="{DataTemplate Shopping:ShoppingListPage}"/>
+        </Tab>
+
+        <Tab Title="Chores">
+            <!--Grocery Icon-->
+            <Tab.Icon>
+                <FontImageSource FontFamily="FAS" Glyph="{x:Static fontawesome:FontAwesomeIcons.Broom}" />
+            </Tab.Icon>
+
+            <!--Tabs within Grocery-->
+            <ShellContent Title="Chores"  Route="PendingTasksPage" ContentTemplate="{DataTemplate Chores:ChoresListPage}"/>
+        </Tab>
+    </TabBar>
+
+</Shell>

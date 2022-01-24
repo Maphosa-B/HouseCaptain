@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HouseCaptain.App">
+    <!--
+        Define global resources and styles here, that apply to all pages in your app.
+    -->
+    <Application.Resources>
+
+        <ResourceDictionary>
+
+
+
+            <!--Componets colors-->
+            <Color x:Key="btnDark">#417496</Color>
+            <Color x:Key="btnLight">#dfe1e2</Color>
+
+            <!--Componets colors-->
+            <Color x:Key="DarkBackroundColor">#417496</Color>
+            <Color x:Key="LightBackroundColor">#dfe1e2</Color>
+
+
+            <!--Backround layers colors-->
+            <Color x:Key="LightLayer">#3c4952</Color>
+            <Color x:Key="MiddleLayer">#248076</Color>
+            <Color x:Key="DarkLayer">#417496</Color>
+
+            <!-- dark  Loading Inicator Style-->
+            <Style TargetType="ActivityIndicator" x:Key="darkLoadingStyle">
+                <Setter Property="HeightRequest" Value="100"/>
+                <Setter Property="WidthRequest" Value="100"/>
+                <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+                <Setter Property="Color" Value="#ad8328"/>
+                <Setter Property="TranslationY" Value="-30"/>
+            </Style>
+
+            <!--Light Loading Inicator Style-->
+            <Style TargetType="ActivityIndicator" x:Key="lightLoadingStyle">
+                <Setter Property="HeightRequest" Value="100"/>
+                <Setter Property="WidthRequest" Value="100"/>
+                <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+                <Setter Property="Color" Value="#e4e9ed"/>
+                <Setter Property="TranslationY" Value="-30"/>
+            </Style>
+
+
+            <!--Shell Colors-->
+            <Color x:Key="UnselectedItems">white</Color>
+            <Color x:Key=" DisabledColor">#dfe1e2</Color>
+            <Color x:Key="SelectedItem">#4f665f</Color>
+            <Color x:Key="BarBackround" >#69a7d1</Color>
+
+
+            <!--Style for invalit entry-->
+            <Style x:Key="InvalidEntryStyle" TargetType="Entry">
+                <Setter Property="TextColor" Value="Red" />
+            </Style>
+
+        </ResourceDictionary>
+
+    </Application.Resources>
+</Application>
