@@ -106,7 +106,8 @@
                Margin="-100,0,100,-90"
                BorderColor="White">
 
-            <Button Text="{x:Static fontawesome:FontAwesomeIcons.Users}"
+            
+            <Button Text="{x:Static fontawesome:FontAwesomeIcons.Home}"
                     TextColor="White"
                     FontFamily="FAS"
                     BackgroundColor="Transparent"

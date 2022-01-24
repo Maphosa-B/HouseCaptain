@@ -1,6 +1,7 @@
 ﻿using HouseCaptain.ViewModels;
 using HouseCaptain.Views;
 using HouseCaptain.Views.Shopping;
+using HouseCaptain.Views.Homes;
 using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
@@ -18,6 +19,8 @@ namespace HouseCaptain
             Routing.RegisterRoute(nameof(AddShoppingItemPage), typeof(AddShoppingItemPage));
             Routing.RegisterRoute(nameof(ShoppingHistoryPage), typeof(ShoppingHistoryPage));
             Routing.RegisterRoute(nameof(ViewSingleShoppingItemPage), typeof(ViewSingleShoppingItemPage));
+            Routing.RegisterRoute(nameof(AddHomePage), typeof(AddHomePage));
+
         }
 
     }

@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:ViewModels.Homes="clr-namespace:HouseCaptain.ViewModels.Homes"
+             xmlns:fontawesome="clr-namespace:FontAwesome"
+             xmlns:HomeModel="clr-namespace:HouseCaptain.Models.Homes"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:DataType="ViewModels.Homes:HomesListVieModel"
+             x:Class="HouseCaptain.Views.Homes.HomesListPage"            
+             ControlTemplate="{StaticResource DecorationTemplate}"
+             Title="Home">
+    <ContentPage.BindingContext>
+        <ViewModels.Homes:HomesListVieModel/>
+    </ContentPage.BindingContext>
+
+
+    <ContentPage.Behaviors>
+        <xct:EventToCommandBehavior EventName="Appearing" Command="{Binding GetListOfHomesCommand}" />
+    </ContentPage.Behaviors>
+
+
+    <Grid Margin="2,2,2,2">
+        <!--List of groceries-->
+        <CollectionView ItemsSource="{Binding HomesList}" 
+                        SelectionMode="Single">
+           
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+
+                <DataTemplate  x:DataType="HomeModel:HomeModel">
+                    <!--Frame that encapsulate each item-->
+                    <Frame BackgroundColor="{StaticResource ListColor}"
+                               Padding="3"
+                               CornerRadius="50"
+                               HasShadow="True"
+                               HeightRequest="70"
+                           BorderColor="White">
+                        <Grid>
+                            <StackLayout Orientation="Horizontal">
+                                <Frame HeightRequest="70"
+                                           WidthRequest="90"
+                                           Padding="0"
+                                           CornerRadius="80">
+                                    <Label Text="{x:Static fontawesome:FontAwesomeIcons.Home}"
+                                           TextColor="{StaticResource BarBackround}"
+                                           HorizontalOptions="CenterAndExpand"
+                                           VerticalOptions="CenterAndExpand"
+                                           FontFamily="FAS"
+                                           FontSize="60"/>
+                                </Frame>
+
+                                <Label Text="{Binding Name}"
+                                            TextColor="White"
+                                            FontSize="30"
+                                       Margin="10,0,0,0"
+                                       HorizontalOptions="StartAndExpand"
+                                       VerticalOptions="CenterAndExpand"/>
+
+
+
+                            </StackLayout>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+
+        <!--Button to add Item-->
+        <Frame BackgroundColor="{StaticResource BarBackround}"
+               HorizontalOptions="EndAndExpand"
+               VerticalOptions="EndAndExpand"
+               WidthRequest="100"
+               HeightRequest="100"
+               CornerRadius="90"
+               Margin="-30,-30,-40,-30"
+               BorderColor="White">
+
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding GoToAddHomePageCommand}"/>
+            </Frame.GestureRecognizers>
+
+            <StackLayout>
+
+                <Button Text="+"
+                        TextColor="White"
+                        BackgroundColor="Transparent"
+                        HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="CenterAndExpand"
+                        FontSize="70"
+                        Margin="0,-20,0,0"
+                        Command="{Binding GoToAddHomePageCommand}"/>
+            </StackLayout>
+        </Frame>
+    </Grid>
+
+</ContentPage>

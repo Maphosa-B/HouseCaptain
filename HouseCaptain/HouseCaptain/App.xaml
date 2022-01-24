@@ -60,6 +60,58 @@
                 <Setter Property="TextColor" Value="Red" />
             </Style>
 
+
+            <ControlTemplate x:Key="DecorationTemplate">
+                <Grid Margin="3">
+
+                    <!--Frames which are below are for those bubble which are used for decorations-->
+                    <Frame Opacity="0.1"
+                           BackgroundColor="{StaticResource BarBackround}"
+                           CornerRadius="280"
+                           HorizontalOptions="StartAndExpand"
+                          VerticalOptions="StartAndExpand"
+                          HeightRequest="400"
+                          Margin="-200,-100,0,0"
+                          WidthRequest="400">
+
+                    </Frame>
+
+                    <Frame  Opacity="0.7"
+                            BackgroundColor="{StaticResource BarBackround}"
+                            CornerRadius="280"
+                            HorizontalOptions="EndAndExpand"
+                            VerticalOptions="StartAndExpand"
+                            HeightRequest="200"
+                            Margin="0,100,-100,-200"
+                            WidthRequest="200">
+
+                    </Frame>
+
+                    <Frame  Opacity="0.3"
+                            BackgroundColor="{StaticResource BarBackround}"
+                            CornerRadius="280"
+                            HorizontalOptions="EndAndExpand"
+                            VerticalOptions="EndAndExpand"
+                            HeightRequest="400"
+                            Margin="0,0,-200,-100"
+                            WidthRequest="400">
+
+                    </Frame>
+
+                    <Frame  Opacity="0.7"
+                            BackgroundColor="{StaticResource BarBackround}"
+                            CornerRadius="280"
+                            HorizontalOptions="StartAndExpand"
+                            VerticalOptions="EndAndExpand"
+                            HeightRequest="120"
+                            Margin="0,0,0,180"
+                            WidthRequest="120">
+                    </Frame>
+                    <ContentPresenter/>
+
+                </Grid>
+            </ControlTemplate>
+
         </ResourceDictionary>
 
     </Application.Resources>

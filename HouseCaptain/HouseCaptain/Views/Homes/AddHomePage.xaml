@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ViewModels.Homes="clr-namespace:HouseCaptain.ViewModels.Homes"
+             x:Class="HouseCaptain.Views.Homes.AddHomePage"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:DataType="ViewModels.Homes:AddHomeViewModel"
+             ControlTemplate="{StaticResource DecorationTemplate}"
+             Title="Add Home or Organization">
+
+    <ContentPage.BindingContext>
+        <ViewModels.Homes:AddHomeViewModel/>
+    </ContentPage.BindingContext>
+
+    <Grid>
+        <StackLayout VerticalOptions="CenterAndExpand"
+                     Padding="20">
+            <Entry Text="{Binding HomeName}" 
+                   Placeholder="Name"/>
+        </StackLayout>
+
+        <!--Button to add Item-->
+        <Frame BackgroundColor="{StaticResource BarBackround}"
+               HorizontalOptions="EndAndExpand"
+               VerticalOptions="EndAndExpand"
+               WidthRequest="100"
+               HeightRequest="100"
+               CornerRadius="90"
+               Margin="-30,-30,-40,-30"
+               BorderColor="White">
+
+            <StackLayout>
+
+                <Button Text="+"
+                        TextColor="White"
+                        BackgroundColor="Transparent"
+                        HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="CenterAndExpand"
+                        FontSize="70"
+                        Margin="0,-20,0,0"
+                        Command="{Binding AddHomeCommand}"/>
+            </StackLayout>
+        </Frame>
+    </Grid>
+    
+
+    
+    
+</ContentPage>
