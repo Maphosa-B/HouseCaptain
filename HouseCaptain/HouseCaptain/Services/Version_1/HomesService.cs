@@ -85,7 +85,7 @@ namespace HouseCaptain.Services.Version_1
 
             var data = await db.Table<HomesEntity>().Where(x => x.Id == Home.Id).FirstOrDefaultAsync();
 
-            data.Name = Home.Name;
+            data.Name = Home.Name.Transform(To.TitleCase);
             data.LastModificationDate = DateTime.Now;
 
             return await db.UpdateAsync(data);

@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:ViewModels="clr-namespace:HouseCaptain.ViewModels.Homes"
+             xmlns:HomeModel="clr-namespace:HouseCaptain.Models.Homes"
+             xmlns:fontawesome="clr-namespace:FontAwesome"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="HouseCaptain.Views.Homes.HomeDetailsPage"
+             x:DataType="ViewModels:HomeDetailsViewModel"         
+             ControlTemplate="{StaticResource DecorationTemplate}"
+             Title="{Binding Title}">
+
+    <ContentPage.BindingContext>
+        <ViewModels:HomeDetailsViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Behaviors>
+        <xct:EventToCommandBehavior EventName="Appearing" Command="{Binding GetHomeFromDbCommand}" />
+    </ContentPage.Behaviors>
+
+    <Grid>
+        <StackLayout VerticalOptions="CenterAndExpand"
+                     Padding="20"
+                     IsVisible="{Binding IsNotBusy}">
+            <Entry Text="{Binding HomeName}" 
+                   Placeholder="Name"/>
+        </StackLayout>
+
+
+
+        <!--Button to view history of grocery list-->
+        <Frame BackgroundColor="{StaticResource BarBackround}"
+               HorizontalOptions="EndAndExpand"
+               VerticalOptions="EndAndExpand"
+               WidthRequest="120"
+               HeightRequest="100"
+               CornerRadius="70"
+               Margin="100,0,20,-70"
+               BorderColor="White"
+               IsVisible="{Binding IsNotBusy}">
+
+            <Button Text="{x:Static fontawesome:FontAwesomeIcons.TrashAlt}"
+                    TextColor="White"
+                    FontFamily="FAS"
+                    BackgroundColor="Transparent"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="CenterAndExpand"
+                    FontSize="30"
+                    Margin="-40,-40,0,0"
+                    Command="{Binding DeleteHomeDetailsCommand}"/>
+
+        </Frame>
+
+        <!--Button to Save Home details-->
+        <Frame BackgroundColor="{StaticResource BarBackround}"
+               HorizontalOptions="EndAndExpand"
+               VerticalOptions="EndAndExpand"
+               WidthRequest="100"
+               HeightRequest="100"
+               CornerRadius="90"
+               Margin="-30,-30,-40,-30"
+               BorderColor="White"
+               IsVisible="{Binding IsNotBusy}">
+
+            <StackLayout>
+
+                <Button Text="{x:Static fontawesome:FontAwesomeIcons.PencilAlt}"
+                        TextColor="White"
+                        BackgroundColor="Transparent"
+                        HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="CenterAndExpand"
+                        FontSize="50"
+                        FontFamily="FAS"
+                        Margin="0,-20,0,0"
+                        Command="{Binding UpdateHomeDetailsCommand}"/>
+            </StackLayout>
+        </Frame>
+
+        <ActivityIndicator IsRunning="{Binding IsBusy}"
+                           HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="CenterAndExpand"
+                           HeightRequest="100"
+                           WidthRequest="200"
+                           Color="{StaticResource BarBackround}"/>
+    </Grid>
+</ContentPage>

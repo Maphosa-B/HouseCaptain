@@ -22,11 +22,26 @@
     <Grid Margin="2,2,2,2">
         <!--List of groceries-->
         <CollectionView ItemsSource="{Binding HomesList}" 
-                        SelectionMode="Single">
+                        SelectionChangedCommand="{Binding GoToSelectedHomeCommand}"
+                        SelectionMode="Single"
+                        SelectedItem="{Binding SelectedHome}"
+                        IsVisible="{Binding IsNotBusy}">
            
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
             </CollectionView.ItemsLayout>
+
+            <CollectionView.EmptyView >
+
+                <StackLayout VerticalOptions="CenterAndExpand"
+                                 HorizontalOptions="CenterAndExpand">
+                    <Label Text="You don't any have added home"
+                               HorizontalOptions="CenterAndExpand"
+                               VerticalOptions="CenterAndExpand"
+                               FontSize="20"
+                               TextColor="{StaticResource  BarBackround}"/>
+                </StackLayout>
+            </CollectionView.EmptyView>
 
             <CollectionView.ItemTemplate>
 
@@ -95,6 +110,13 @@
                         Command="{Binding GoToAddHomePageCommand}"/>
             </StackLayout>
         </Frame>
+        
+        <ActivityIndicator IsRunning="{Binding IsBusy}"
+                           HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="CenterAndExpand"
+                           HeightRequest="100"
+                           WidthRequest="200"
+                           Color="{StaticResource BarBackround}"/>
     </Grid>
 
 </ContentPage>

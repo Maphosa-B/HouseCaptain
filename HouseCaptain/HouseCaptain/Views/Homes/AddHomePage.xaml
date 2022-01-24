@@ -6,7 +6,7 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:DataType="ViewModels.Homes:AddHomeViewModel"
              ControlTemplate="{StaticResource DecorationTemplate}"
-             Title="Add Home or Organization">
+             Title="Add Home">
 
     <ContentPage.BindingContext>
         <ViewModels.Homes:AddHomeViewModel/>
@@ -14,12 +14,13 @@
 
     <Grid>
         <StackLayout VerticalOptions="CenterAndExpand"
-                     Padding="20">
+                     Padding="20"
+                     IsVisible="{Binding IsNotBusy}">
             <Entry Text="{Binding HomeName}" 
                    Placeholder="Name"/>
         </StackLayout>
 
-        <!--Button to add Item-->
+        <!--Button to add Home-->
         <Frame BackgroundColor="{StaticResource BarBackround}"
                HorizontalOptions="EndAndExpand"
                VerticalOptions="EndAndExpand"
@@ -27,7 +28,8 @@
                HeightRequest="100"
                CornerRadius="90"
                Margin="-30,-30,-40,-30"
-               BorderColor="White">
+               BorderColor="White"
+               IsVisible="{Binding IsNotBusy}">
 
             <StackLayout>
 
@@ -41,9 +43,13 @@
                         Command="{Binding AddHomeCommand}"/>
             </StackLayout>
         </Frame>
-    </Grid>
-    
 
-    
-    
+        <ActivityIndicator IsRunning="{Binding IsBusy}"
+                           HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="CenterAndExpand"
+                           HeightRequest="100"
+                           WidthRequest="200"
+                           Color="{StaticResource BarBackround}"/>
+    </Grid>
+   
 </ContentPage>

@@ -13,9 +13,14 @@
         <ViewModels.Shopping:ShoppingListViewModel/>
     </ContentPage.BindingContext>
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Update Home Details" Command="{Binding GoToSelectedHomeSettingsCommand}"/>
+    </ContentPage.ToolbarItems>
+
     <Grid Margin="2,2,2,2">
         <!--List of groceries-->
         <CollectionView ItemsSource="{Binding GroceryList}"
+                        IsVisible="{Binding IsNotBusy}"
                         SelectionMode="Single"
                         SelectionChangedCommand="{Binding GoToSingleShoppingItemPageCommand}"
                         SelectedItem="{Binding SelectedItem}">
@@ -161,5 +166,12 @@
                         Command="{Binding GoToAddShoppingItemPageCommand}"/>
             </StackLayout>
         </Frame>
+
+        <ActivityIndicator IsRunning="{Binding IsBusy}"
+                           HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="CenterAndExpand"
+                           HeightRequest="100"
+                           WidthRequest="200"
+                           Color="{StaticResource BarBackround}"/>
     </Grid>
 </ContentPage>

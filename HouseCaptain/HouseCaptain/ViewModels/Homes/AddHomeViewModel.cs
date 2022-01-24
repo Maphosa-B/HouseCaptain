@@ -13,9 +13,7 @@ namespace HouseCaptain.ViewModels.Homes
     public class AddHomeViewModel:MyBaseViewModel
     {
 
-        private String _HomeName;
-
-
+        private string _HomeName;
 
         //Command to add Home
         public AsyncCommand AddHomeCommand { get; set; }
@@ -26,6 +24,7 @@ namespace HouseCaptain.ViewModels.Homes
             set => SetProperty(ref _HomeName, value);
         }
 
+        //Constructor
         public AddHomeViewModel()
         {
             AddHomeCommand = new AsyncCommand(AddHomeAsync);
@@ -34,6 +33,9 @@ namespace HouseCaptain.ViewModels.Homes
         //Helper methods
         async Task AddHomeAsync()
         {
+            IsBusy = true;
+            IsNotBusy = false;
+
             if(!String.IsNullOrEmpty(_HomeName))
             {
                 HomesEntity newHome = new HomesEntity
@@ -45,7 +47,7 @@ namespace HouseCaptain.ViewModels.Homes
 
                 if(status>0)
                 {
-                    await Application.Current.MainPage.DisplayAlert(null, "Home has bee added", "Okay");
+                    await Application.Current.MainPage.DisplayAlert(null, $"{_HomeName} has been added", "Okay");
                     await Shell.Current.GoToAsync("..");
                 }
                 else
@@ -58,6 +60,9 @@ namespace HouseCaptain.ViewModels.Homes
             {
                 await Application.Current.MainPage.DisplayAlert(null, "Name cannot be blank", "Okay");
             }
+
+            IsBusy = false;
+            IsNotBusy = true;
         }
     }
 }

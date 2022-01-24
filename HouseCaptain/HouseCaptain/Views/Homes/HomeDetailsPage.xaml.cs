@@ -10,16 +10,11 @@ using Xamarin.Forms.Xaml;
 namespace HouseCaptain.Views.Homes
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class HomesListPage : ContentPage
+    public partial class HomeDetailsPage : ContentPage
     {
-        public HomesListPage()
+        public HomeDetailsPage()
         {
             InitializeComponent();
-        }
-
-        private void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
     }
 }
