@@ -77,7 +77,6 @@ namespace HouseCaptain.ViewModels.Shopping
                     BarCode = "Coke",
                     CategoryId = 2,
                     Name = "Savanna",
-                    Notes = "Please buy right brand",
                     Quantity = 24,
                     ImgUrl = "Drink.jpg"
                 },
@@ -89,7 +88,42 @@ namespace HouseCaptain.ViewModels.Shopping
                     Notes = "Please buy right brand",
                     Quantity = 13,
                     ImgUrl = "Drink.jpg"
-                }
+                },
+                 new ShoppingItemModel
+                {
+                    BarCode = "ssd",
+                    CategoryId = 2,
+                    Name = "Shoes",
+                    Notes = "Please buy right brand",
+                    Quantity = 1,
+                    ImgUrl ="Shoe.jpg"
+                },
+                new ShoppingItemModel
+                {
+                    BarCode = "ssd",
+                    CategoryId = 2,
+                    Name = "Sun Glasses",
+                    Notes = "Please buy right brand",
+                    Quantity = 2,
+                    ImgUrl = "Glass.jpg"
+                },
+                new ShoppingItemModel
+                {
+                    BarCode = "Coke",
+                    CategoryId = 2,
+                    Name = "Coca Coal Coke",
+                    Quantity = 12,
+                    ImgUrl = "Drink.jpg"
+                },
+                new ShoppingItemModel
+                {
+                    BarCode = "Coke",
+                    CategoryId = 2,
+                    Name = "Red Bull Energy Dr..",
+                    Notes = "Please buy right brand",
+                    Quantity = 4,
+                    ImgUrl = "Drink.jpg"
+                },
             };
         }
 

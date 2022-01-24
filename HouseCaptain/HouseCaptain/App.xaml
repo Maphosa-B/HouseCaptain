@@ -19,6 +19,8 @@
             <Color x:Key="DarkBackroundColor">#417496</Color>
             <Color x:Key="LightBackroundColor">#dfe1e2</Color>
 
+            <Color x:Key="ListColor">#b6dafa</Color>
+
 
             <!--Backround layers colors-->
             <Color x:Key="LightLayer">#3c4952</Color>

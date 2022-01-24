@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ViewModels.Shopping="clr-namespace:HouseCaptain.ViewModels.Shopping"
              xmlns:fontawesome="clr-namespace:FontAwesome"
-             x:Class="HouseCaptain.Views.Shopping.ViewSingleShoppingItemPage">
+             x:Class="HouseCaptain.Views.Shopping.ViewSingleShoppingItemPage"
+             Title="">
 
 
 

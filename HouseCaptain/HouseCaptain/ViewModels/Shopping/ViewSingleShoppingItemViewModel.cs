@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HouseCaptain.ViewModels.Shopping
 {
-    public class ViewSingleShoppingItemViewModel:MyBaseViewModel
+    public class ViewSingleShoppingItemViewModel: MyBaseViewModel
     {
         public String Name { get; set; } = "Shoes";
         public String Notes { get; set; } = "Please buy right brand";

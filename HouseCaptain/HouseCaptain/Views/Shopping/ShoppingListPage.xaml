@@ -4,7 +4,9 @@
              xmlns:fontawesome ="clr-namespace:FontAwesome"
              xmlns:ItemModel="clr-namespace:HouseCaptain.Models.Shopping"
              xmlns:ViewModels.Shopping="clr-namespace:HouseCaptain.ViewModels.Shopping"
-             x:Class="HouseCaptain.Views.Shopping.ShoppingListPage">
+             x:Class="HouseCaptain.Views.Shopping.ShoppingListPage"
+             x:DataType="ViewModels.Shopping:ShoppingListViewModel"
+             Title="Shopping List">
 
 
     <ContentPage.BindingContext>
@@ -15,7 +17,7 @@
         <!--List of groceries-->
         <CollectionView ItemsSource="{Binding GroceryList}"
                         SelectionMode="Single"
-                        SelectionChangedCommand="{Binding GoToSingleGroceryPageCommand}"
+                        SelectionChangedCommand="{Binding GoToSingleShoppingItemPageCommand}"
                         SelectedItem="{Binding SelectedItem}">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
@@ -25,103 +27,71 @@
 
                 <DataTemplate  x:DataType="ItemModel:ShoppingItemModel">
 
-                    <!--Frame that encapsulate each item-->
-                    <Frame BackgroundColor="{StaticResource BarBackround}"
-                           Padding="5"
-                           CornerRadius="20"
-                           HasShadow="True">
-                        <StackLayout Orientation="Horizontal">
 
-                            <!--Frame which encapsulate image-->
-                            <Frame BackgroundColor="{StaticResource BarBackround}"
-                                   BorderColor="White"
-                                   HeightRequest="120"
-                                   WidthRequest="120"
-                                   HorizontalOptions="Start"
-                                   VerticalOptions="CenterAndExpand"
-                                   Padding="0"
-                                   CornerRadius="20">
-                                <Image Source="{Binding ImgUrl}"
-                                       Aspect="AspectFill"/>
-                            </Frame>
-
-                            <!--Stack layout which encapsulate information about the specific item-->
-                            <StackLayout Orientation="Vertical"
-                                         HorizontalOptions="StartAndExpand">
-
-                                <Label Text="{Binding Name}"
-                                       TextColor="White"
-                                       HorizontalOptions="StartAndExpand"
-                                       VerticalOptions="Start"
-                                       FontSize="27"
-                                       Margin="6,0,0,0"
-                                       FontAttributes="Bold"/>
-
-                                <BoxView Color="White"
-                                         HeightRequest="1"
-                                         WidthRequest="200"
-                                         HorizontalOptions="StartAndExpand"/>
-
+                    <StackLayout>
+                        <!--Frame that encapsulate each item-->
+                        <Frame BackgroundColor="{StaticResource ListColor}"
+                               Padding="3"
+                               CornerRadius="50"
+                               HasShadow="True"
+                               HeightRequest="70">
+                            <Grid>
                                 <StackLayout Orientation="Horizontal">
-                                    <Label Text="{x:Static fontawesome:FontAwesomeIcons.CartArrowDown}"
-                                           TextColor="White"
-                                           FontFamily="FAS"
-                                           HorizontalOptions="Start"
-                                           Margin="6,0,3,3"
-                                           VerticalOptions="Start"
-                                           FontSize="18"/>
+                                    <Frame HeightRequest="70"
+                                           WidthRequest="90"
+                                           Padding="0"
+                                           CornerRadius="80">
+                                        <Image Source="{Binding ImgUrl}"
+                                              Aspect="AspectFill"/>
+                                    </Frame>
 
+                                    <StackLayout Margin="5,0,0,0">
+                                        <Label Text="{Binding Name}"
+                                               TextColor="White"
+                                               FontSize="30"/>
+                                        <Label Text="{Binding Notes}"
+                                               TextColor="{StaticResource BarBackround}"
+                                               FontSize="15"
+                                               Margin="0,-8,0,0"/>
+                                    </StackLayout>
+                                   
+                                    
+                                </StackLayout>
+
+
+                                <Frame HorizontalOptions="EndAndExpand"
+                                       VerticalOptions="StartAndExpand"
+                                       BackgroundColor="{StaticResource BarBackround}"
+                                       CornerRadius="80"
+                                       Margin="0,-35,-10,0"
+                                       HeightRequest="50"
+                                       WidthRequest="50">
                                     <Label Text="{Binding Quantity}"
+                                           Margin="0,10,10,0"
                                            TextColor="White"
-                                           HorizontalOptions="StartAndExpand"
-                                           VerticalOptions="Start"
-                                           FontSize="16"
-                                           TranslationY="0"/>
-                                </StackLayout>
+                                           FontSize="20"/>
+                                </Frame>
 
-                                <StackLayout Orientation="Horizontal">
-                                    <Label Text="{x:Static fontawesome:FontAwesomeIcons.CalendarPlus}"
-                                           TextColor="White"
+                                <Frame HorizontalOptions="EndAndExpand"
+                                       VerticalOptions="EndAndExpand"
+                                       CornerRadius="80"
+                                       Margin="-28"
+                                       HeightRequest="50"
+                                       WidthRequest="50"
+                                       Opacity="0.7">
+                                    <Label Text="{x:Static fontawesome:FontAwesomeIcons.Check}"
                                            FontFamily="FAS"
-                                           HorizontalOptions="Start"
-                                          Margin="6,0,3,3"
-                                           VerticalOptions="Start"
-                                           FontSize="18"/>
+                                           TextColor="{StaticResource BarBackround}"
+                                           FontSize="30"/>
+                                </Frame>
+                            </Grid>
+                            
+                          
+                        </Frame>
+                        
 
-                                    <Label Text="2 days ago"
-                                           TextColor="White"
-                                           HorizontalOptions="StartAndExpand"
-                                           VerticalOptions="Start"
-                                          FontSize="16"
-                                           TranslationY="0"/>
-                                </StackLayout>
+                    </StackLayout>
 
-                                <StackLayout Orientation="Horizontal">
-                                    <Label Text="{x:Static fontawesome:FontAwesomeIcons.Book}"
-                                           TextColor="White"
-                                           FontFamily="FAS"
-                                           HorizontalOptions="Start"
-                                          Margin="6,0,3,3"
-                                           VerticalOptions="Start"
-                                             FontSize="18"/>
-
-                                    <Label Text="{Binding Notes}"
-                                           TextColor="White"
-                                           HorizontalOptions="StartAndExpand"
-                                           VerticalOptions="Start"
-                                           FontSize="16"
-                                           TranslationY="0"/>
-                                </StackLayout>
-
-
-                                <BoxView Color="White"
-                                         HeightRequest="1"
-                                         WidthRequest="200"
-                                         HorizontalOptions="StartAndExpand"/>
-
-                            </StackLayout>
-                        </StackLayout>
-                    </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
