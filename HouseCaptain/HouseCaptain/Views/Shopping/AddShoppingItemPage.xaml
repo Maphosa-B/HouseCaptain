@@ -3,7 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:ViewModels.Shopping="clr-namespace:HouseCaptain.ViewModels.Shopping"
              xmlns:fontAwesome="clr-namespace:FontAwesome"
-             x:Class="HouseCaptain.Views.Shopping.AddShoppingItemPage">
+             x:DataType="ViewModels.Shopping:AddShoppingItemViewModel"
+             x:Class="HouseCaptain.Views.Shopping.AddShoppingItemPage"
+             Title="Add Item To Shopping List">
+  
+    
     <ContentPage.BindingContext>
         <ViewModels.Shopping:AddShoppingItemViewModel/>
     </ContentPage.BindingContext>
@@ -59,21 +63,77 @@
         <!--`This below stack layout encapsulate form elements-->
         <StackLayout Padding="20"
                      VerticalOptions="CenterAndExpand">
-            <Entry Placeholder="Name"
-                   Margin="0,20,0,0"
-                   PlaceholderColor="{StaticResource BarBackround}"/>
-            <Entry Placeholder="Quantity"
-                   Margin="0,15,0,0"
-                   PlaceholderColor="{StaticResource BarBackround}" />
-            <Picker Margin="0,20,0,0"
-                    ItemsSource="{Binding CategoriesList}"
-                    SelectedIndex="1"/>
+            <ScrollView>
+                <StackLayout>
+                    <Entry Placeholder="Name"
+                           Margin="0,20,0,0"
+                           PlaceholderColor="{StaticResource BarBackround}"/>
+                    <Entry Placeholder="Quantity"
+                           Margin="0,15,0,0"
+                           PlaceholderColor="{StaticResource BarBackround}" />
+                    <Picker Margin="0,20,0,0"
+                            ItemsSource="{Binding ShoppingItemsCategories}"
+                            SelectedIndex="1"/>
 
-            <Editor IsSpellCheckEnabled="True"
-                    AutoSize="TextChanges"
-                    Placeholder="Description"
-                    Margin="0,20,0,0"
-                    PlaceholderColor="{StaticResource BarBackround}"/>
+                    <Editor IsSpellCheckEnabled="True"
+                            AutoSize="TextChanges"
+                            Placeholder="Notes ( Optional )"
+                            Margin="0,20,0,0"
+                            PlaceholderColor="{StaticResource BarBackround}"/>
+
+                    <!--Display of selected or captured image and a delete button-->
+                    <Grid  IsVisible="{Binding IsImageAvailable}">
+                        <Frame Padding="1"
+                               BackgroundColor="{StaticResource BarBackround}"
+                               HeightRequest="300">
+                            
+                            <Image Source="{Binding ImagePath}"
+                                   Aspect="AspectFill"/>
+                        </Frame>
+
+                        <Button Text="{x:Static fontAwesome:FontAwesomeIcons.Trash}"
+                               FontFamily="FAS"
+                               HorizontalOptions="EndAndExpand"
+                               VerticalOptions="EndAndExpand"
+                               FontSize="40"
+                               TextColor="White" 
+                               BackgroundColor="Transparent"
+                               Command="{Binding RemoveImageCommand}"/>
+                    </Grid>
+
+                    <!--Two button for adding or selecting an image-->
+                    <StackLayout Margin="0,50,0,0"
+                                 IsVisible="{Binding IsImageNotAvailable}">
+                        <Label Text="Display image (optional )"/>
+                      
+                        <BoxView BackgroundColor="{StaticResource BarBackround}"
+                                 HeightRequest="2"/>
+                        
+                        <StackLayout Orientation="Horizontal">
+                            <Button Text="{x:Static fontAwesome:FontAwesomeIcons.Camera}"
+                                    FontFamily="FAS"
+                                    HorizontalOptions="FillAndExpand"
+                                    BackgroundColor="{StaticResource BarBackround}"
+                                    TextColor="White"
+                                    FontSize="20"
+                                    CornerRadius="30"
+                                    Command="{Binding CaptureImageCommand}"/>
+
+                            <Button Text="{x:Static fontAwesome:FontAwesomeIcons.Image}"
+                                    FontFamily="FAS"
+                                    HorizontalOptions="FillAndExpand"
+                                    BackgroundColor="{StaticResource BarBackround}"
+                                    TextColor="White"
+                                    FontSize="20"
+                                    CornerRadius="30"
+                                    Command="{Binding SelectImageCommand}"/>
+                            
+                        </StackLayout>
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+
+           
         </StackLayout>
 
         <!--This frameis used as a button to process and add data-->
@@ -94,9 +154,6 @@
                        Margin="0,0,0,40"/>
             </StackLayout>
 
-            <Frame.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding GoToAddGroceryPageCommand}"/>
-            </Frame.GestureRecognizers>
         </Frame>
     </Grid>
 </ContentPage>
