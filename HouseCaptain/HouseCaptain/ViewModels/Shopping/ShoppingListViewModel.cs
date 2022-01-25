@@ -63,7 +63,7 @@ namespace HouseCaptain.ViewModels.Shopping
                     Name = "Sun Glasses",
                     Notes = "Please buy right brand",
                     Quantity = 2,
-                    ImgUrl = "Glass.jpg"
+                    ImgUrl = "Fruits.jpg"
                 },
                 new ShoppingItemModel
                 {

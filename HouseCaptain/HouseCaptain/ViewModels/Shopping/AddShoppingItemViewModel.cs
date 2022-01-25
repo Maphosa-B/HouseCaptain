@@ -16,10 +16,6 @@ namespace HouseCaptain.ViewModels.Shopping
         private bool _IsImageNotAvailable = false;
         private String _ImagePath;
 
-
-
-        public List<String> ShoppingItemsCategories { get; set; }
-
         public String ImagePath 
         { 
             get => _ImagePath; 
@@ -52,18 +48,6 @@ namespace HouseCaptain.ViewModels.Shopping
             CaptureImageCommand = new AsyncCommand(CaptureAnImageAsync);
             SelectImageCommand = new AsyncCommand(SelectAnImageAsync);
             RemoveImageCommand = new AsyncCommand(RemoveImageAsync);
-
-            ShoppingItemsCategories = new List<string>
-            {
-                "Toletory",
-                "Appliance",
-                "Stationary",
-                "Fruit",
-                "Vaggy",
-                "Breakfast",
-                "Clothing",
-                "Food"
-            };
         }
 
 
