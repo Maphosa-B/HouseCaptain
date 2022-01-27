@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Constants\**" />
+    <EmbeddedResource Remove="Constants\**" />
+    <None Remove="Constants\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Fonts\Icons\Font Awesome 6 Brands-Regular-400.otf" />
     <None Remove="Fonts\Icons\Font Awesome 6 Free-Regular-400.otf" />
     <None Remove="Fonts\Icons\Font Awesome 6 Free-Solid-900.otf" />
@@ -60,9 +66,5 @@
     <EmbeddedResource Update="Views\Shopping\ViewSingleShoppingItemPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Constants\" />
   </ItemGroup>
 </Project>
