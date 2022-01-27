@@ -1,27 +1,77 @@
-﻿using MvvmHelpers.Commands;
+﻿using HouseCaptain.Entities;
+using HouseCaptain.Services.Version_1;
+using MvvmHelpers.Commands;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace HouseCaptain.ViewModels.Shopping
 {
-    public class AddShoppingItemViewModel:MyBaseViewModel
+    public class AddShoppingItemViewModel:MyBaseViewModel,IQueryAttributable
     {
+        //Variable to flag UI
         private bool _IsImageAvailable = false;
         private bool _IsImageNotAvailable = false;
+       
+        
+        
+        //Private variables to collect data
         private String _ImagePath;
+        private String _ItemName;
+        private String _Notes;
+        private String _Category;
+        private String _QuantityType;
+        private String _Quantity;
+        private int _HomeId;
 
-        public String ImagePath 
-        { 
-            get => _ImagePath; 
-            set => SetProperty(ref _ImagePath,value); 
+
+        //Properties of data collection
+        public String ImagePath
+        {
+            get => _ImagePath;
+            set => SetProperty(ref _ImagePath, value);
         }
 
+        public String ItemName 
+        { 
+            get => _ItemName; 
+            set => SetProperty(ref _ItemName,value); 
+        }
+
+
+        public String QuantityType
+        {
+            get => _QuantityType;
+            set => SetProperty(ref _QuantityType, value);
+        }
+
+        public String Notes
+        {
+            get => _Notes;
+            set => SetProperty(ref _Notes, value);
+        }
+
+        public String Category
+        {
+            get => _Category;
+            set => SetProperty(ref _Category, value);
+        }
+
+        public String Quantity
+        {
+            get => _Quantity;
+            set => SetProperty(ref _Quantity, value);
+        }
+
+
+
+        //Properties of UI
         public bool IsImageAvailable
         {
             get => _IsImageAvailable;
@@ -38,6 +88,7 @@ namespace HouseCaptain.ViewModels.Shopping
         public AsyncCommand CaptureImageCommand { get; set; }
         public AsyncCommand SelectImageCommand { get; set; }
         public AsyncCommand RemoveImageCommand { get; set; }
+        public AsyncCommand AddShoppingIteCommand{ get; set; }
 
         public AddShoppingItemViewModel()
         {
@@ -45,13 +96,26 @@ namespace HouseCaptain.ViewModels.Shopping
             _IsImageAvailable = false;
             _IsImageNotAvailable = true;
 
+            //Initial selected Category 
+            Category = ShoppingItemCategoriesList[0];
+            QuantityType = QuantityTypes[0];
+
+
             CaptureImageCommand = new AsyncCommand(CaptureAnImageAsync);
             SelectImageCommand = new AsyncCommand(SelectAnImageAsync);
             RemoveImageCommand = new AsyncCommand(RemoveImageAsync);
+            AddShoppingIteCommand = new AsyncCommand(AddShoppingItemAsync);
         }
 
 
         //Helper methods
+        //Getting a sent Id From shell urlParameter
+        public void ApplyQueryAttributes(IDictionary<string, string> query)
+        {
+            _HomeId =  Convert.ToInt32(HttpUtility.UrlDecode(query["HomeId"]));
+        }
+
+
         async Task CaptureAnImageAsync()
         {
             PermissionStatus MyPermissionStatus = PermissionStatus.Denied;
@@ -138,6 +202,58 @@ namespace HouseCaptain.ViewModels.Shopping
                 ImagePath = "";
             }
             return;
+        } 
+        
+        
+        async Task AddShoppingItemAsync()
+        {
+            //Validating inputs
+            if(String.IsNullOrEmpty(ItemName))
+            {
+                await Application.Current.MainPage.DisplayAlert(null, "Name cannot be blank - "+ ItemName, "Okay");
+                return;
+            }
+
+            if (String.IsNullOrEmpty(Category))
+            {
+                await Application.Current.MainPage.DisplayAlert(null, "Please select a category of the item", "Okay");
+                return;
+            }
+
+
+            ShoppingItemEntity Item = new ShoppingItemEntity
+            {
+                Name = ItemName,
+                Notes = Notes,
+                Quantity =  Convert.ToInt32(Quantity),
+                Category = Category,
+                HomeId = _HomeId,
+                QuantityType = QuantityType
+            };
+
+            //if a user doe not select or capture an image for that item then we use our display image
+            if(String.IsNullOrEmpty(ImagePath))
+            {
+                Item.ImgUrl = $"{Category.Trim()}.jpg";
+            }else
+            {
+                Item.ImgUrl = ImagePath;
+            }
+
+            //Adding the iteminto database 
+            var Status = await ShoppingService.AddShoppingItemAsync(Item);
+
+            if(Status>0)
+            {
+                await Application.Current.MainPage.DisplayAlert(null, $"{ItemName} has been added", "Okay");
+               
+                await Shell.Current.GoToAsync("..");
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert(null, "There was an error, item was not added. Please try again", "Okay");
+                return;
+            }
         }
 
 

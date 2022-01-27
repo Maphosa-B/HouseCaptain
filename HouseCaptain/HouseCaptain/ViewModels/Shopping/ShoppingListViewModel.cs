@@ -1,4 +1,5 @@
 ﻿using HouseCaptain.Models.Shopping;
+using HouseCaptain.Services.Version_1;
 using HouseCaptain.Views.Homes;
 using HouseCaptain.Views.Shopping;
 using MvvmHelpers;
@@ -22,7 +23,7 @@ namespace HouseCaptain.ViewModels.Shopping
 
         //Properties
         public ShoppingItemModel SelectedItem { get; set; }
-        public ObservableRangeCollection<ShoppingItemModel> GroceryList { get; set; }
+        public ObservableRangeCollection<ShoppingItemModel> ShoppingList { get; set; }
 
 
         //Commands
@@ -30,9 +31,12 @@ namespace HouseCaptain.ViewModels.Shopping
         public AsyncCommand GoToShoppingListHistoryPageCommand { get; set; }
         public AsyncCommand GoToSingleShoppingItemPageCommand { get; set; }
         public AsyncCommand GoToSelectedHomeSettingsCommand { get; set; }
+        public AsyncCommand GetListOfItemFromDbCommand { get; set; }
 
         public ShoppingListViewModel()
         {
+
+            ShoppingList = new ObservableRangeCollection<ShoppingItemModel>();
 
             
             Title = "Home Shopping List";
@@ -42,100 +46,9 @@ namespace HouseCaptain.ViewModels.Shopping
             GoToShoppingListHistoryPageCommand = new AsyncCommand(GoToShoppingListHistoryAsync);
             GoToSingleShoppingItemPageCommand = new AsyncCommand(GoToSingleShoppingItemAsync);
             GoToSelectedHomeSettingsCommand = new AsyncCommand(GoToSelectedHomeSettingsAsync);
+            GetListOfItemFromDbCommand = new AsyncCommand(GetShoppingList);
 
             IsNavigated = 0;
-
-            GroceryList = new ObservableRangeCollection<ShoppingItemModel>
-            {
-                new ShoppingItemModel
-                {
-                    BarCode = "ssd",
-                    CategoryId = 2,
-                    Name = "Shoes",
-                    Notes = "Please buy right brand",
-                    Quantity = 1,
-                    ImgUrl ="Shoe.jpg"
-                },
-                new ShoppingItemModel
-                {
-                    BarCode = "ssd",
-                    CategoryId = 2,
-                    Name = "Sun Glasses",
-                    Notes = "Please buy right brand",
-                    Quantity = 2,
-                    ImgUrl = "Fruits.jpg"
-                },
-                new ShoppingItemModel
-                {
-                    BarCode = "Coke",
-                    CategoryId = 2,
-                    Name = "Coca Coal Coke",
-                    Notes = "Please buy right brand",
-                    Quantity = 12,
-                    ImgUrl = "Drink.jpg"
-                },
-                new ShoppingItemModel
-                {
-                    BarCode = "Coke",
-                    CategoryId = 2,
-                    Name = "Red Bull Energy Dr..",
-                    Notes = "Please buy right brand",
-                    Quantity = 4,
-                    ImgUrl = "Drink.jpg"
-                },
-                new ShoppingItemModel
-                {
-                    BarCode = "Coke",
-                    CategoryId = 2,
-                    Name = "Savanna",
-                    Quantity = 24,
-                    ImgUrl = "Drink.jpg"
-                },
-                new ShoppingItemModel
-                {
-                    BarCode = "Coke",
-                    CategoryId = 2,
-                    Name = "Sprite",
-                    Notes = "Please buy right brand",
-                    Quantity = 13,
-                    ImgUrl = "Drink.jpg"
-                },
-                 new ShoppingItemModel
-                {
-                    BarCode = "ssd",
-                    CategoryId = 2,
-                    Name = "Shoes",
-                    Notes = "Please buy right brand",
-                    Quantity = 1,
-                    ImgUrl ="Shoe.jpg"
-                },
-                new ShoppingItemModel
-                {
-                    BarCode = "ssd",
-                    CategoryId = 2,
-                    Name = "Sun Glasses",
-                    Notes = "Please buy right brand",
-                    Quantity = 2,
-                    ImgUrl = "Glass.jpg"
-                },
-                new ShoppingItemModel
-                {
-                    BarCode = "Coke",
-                    CategoryId = 2,
-                    Name = "Coca Coal Coke",
-                    Quantity = 12,
-                    ImgUrl = "Drink.jpg"
-                },
-                new ShoppingItemModel
-                {
-                    BarCode = "Coke",
-                    CategoryId = 2,
-                    Name = "Red Bull Energy Dr..",
-                    Notes = "Please buy right brand",
-                    Quantity = 4,
-                    ImgUrl = "Drink.jpg"
-                },
-            };
         }
 
         //Helper Methods
@@ -147,7 +60,7 @@ namespace HouseCaptain.ViewModels.Shopping
             if (IsNavigated == 0)
             {
                 IsNavigated++;
-                await Shell.Current.GoToAsync(nameof(AddShoppingItemPage));
+                await Shell.Current.GoToAsync( $"{nameof(AddShoppingItemPage)}?HomeId={_HomeId}");
                 IsNavigated = 0;
             }
 
@@ -163,7 +76,7 @@ namespace HouseCaptain.ViewModels.Shopping
             if (IsNavigated == 0)
             {
                 IsNavigated++;
-                await Shell.Current.GoToAsync(nameof(ShoppingHistoryPage));
+                await Shell.Current.GoToAsync($"{nameof(ShoppingHistoryPage)}?HomeId={_HomeId}");
                 IsNavigated = 0;
             }
 
@@ -179,7 +92,7 @@ namespace HouseCaptain.ViewModels.Shopping
             if (IsNavigated == 0)
             {
                 IsNavigated++;
-                await Shell.Current.GoToAsync(nameof(ViewSingleShoppingItemPage));
+                await Shell.Current.GoToAsync($"{nameof(ViewSingleShoppingItemPage)}?HomeId={_HomeId}&ItemId={SelectedItem.Id}" );
                 IsNavigated = 0;
             }
 
@@ -197,6 +110,49 @@ namespace HouseCaptain.ViewModels.Shopping
                 IsNavigated++;
                 await Shell.Current.GoToAsync( $"{nameof(HomeDetailsPage)}?HomeId={_HomeId}");
                 IsNavigated = 0;
+            }
+
+            IsBusy = false;
+            IsNotBusy = true;
+        }
+
+        async Task GetShoppingList()
+        {
+
+            IsBusy = true;
+            IsNotBusy = false;
+
+
+            //Clearing List
+            if(ShoppingList!=null)
+            {
+                ShoppingList.Clear();
+            }
+           
+
+            var temItemsList =  await ShoppingService.GetAllShoppingItemsAsync(Convert.ToInt32(_HomeId));
+
+            List<ShoppingItemModel> listOfShoppingItemModel = new List<ShoppingItemModel>();
+           
+            foreach(var i in temItemsList)
+            {
+                ShoppingItemModel aa = new ShoppingItemModel
+                {
+                    Id = i.Id,
+                    ImgUrl = i.ImgUrl,
+                    Name = i.Name,
+                    CategoryId = 1,
+                    Notes = i.Notes,
+                    Quantity = i.Quantity,
+                    QuantityType = i.QuantityType
+                };
+
+                listOfShoppingItemModel.Add(aa);
+            }
+
+            if (listOfShoppingItemModel != null)
+            {
+                ShoppingList.AddRange(listOfShoppingItemModel);
             }
 
             IsBusy = false;

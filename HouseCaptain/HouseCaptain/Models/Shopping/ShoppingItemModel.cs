@@ -10,8 +10,8 @@ namespace HouseCaptain.Models.Shopping
         public String Name { get; set; }
         public String Notes { get; set; }
         public int Quantity { get; set; }
-        public String ImgUrl { get; set; } = "bb.jpg";
-        public String BarCode { get; set; }
+        public string QuantityType { get; set; }
+        public String ImgUrl { get; set; } 
         public int CategoryId { get; set; }
     }
 

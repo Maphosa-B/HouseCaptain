@@ -22499,7 +22499,7 @@ namespace HouseCaptain.Droid
 			public const int btn_radio_on_to_off_mtrl_animation = 2131165279;
 			
 			// aapt resource value: 0x7F070060
-			public const int Canned_Goods = 2131165280;
+			public const int CannedGoods = 2131165280;
 			
 			// aapt resource value: 0x7F070061
 			public const int design_fab_background = 2131165281;
@@ -22520,7 +22520,7 @@ namespace HouseCaptain.Droid
 			public const int Drink = 2131165286;
 			
 			// aapt resource value: 0x7F070067
-			public const int Frozen_Foods = 2131165287;
+			public const int FrozenFoods = 2131165287;
 			
 			// aapt resource value: 0x7F070068
 			public const int Fruits = 2131165288;

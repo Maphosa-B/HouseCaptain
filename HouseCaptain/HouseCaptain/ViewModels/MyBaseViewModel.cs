@@ -8,6 +8,7 @@ namespace HouseCaptain.ViewModels
     public class MyBaseViewModel:BaseViewModel
     {
         public List<String> ShoppingItemCategoriesList { get; set; }
+        public List<String> QuantityTypes { get; set; }
 
         public MyBaseViewModel()
         {
@@ -38,6 +39,17 @@ namespace HouseCaptain.ViewModels
                 "Gadget",
                 "Gardening",
                 "Other"
+            };
+
+
+            QuantityTypes = new List<string>
+            {
+                "Items",
+                "Packs",
+                "g",
+                "Kg",
+                "mm",
+                "L",           
             };
         }
     }

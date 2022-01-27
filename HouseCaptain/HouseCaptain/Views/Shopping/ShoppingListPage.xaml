@@ -4,9 +4,11 @@
              xmlns:fontawesome ="clr-namespace:FontAwesome"
              xmlns:ItemModel="clr-namespace:HouseCaptain.Models.Shopping"
              xmlns:ViewModels.Shopping="clr-namespace:HouseCaptain.ViewModels.Shopping"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="HouseCaptain.Views.Shopping.ShoppingListPage"
              x:DataType="ViewModels.Shopping:ShoppingListViewModel"
-             Title="Shopping List">
+             Title="Shopping List"
+             ControlTemplate="{StaticResource DecorationTemplate}">
 
 
     <ContentPage.BindingContext>
@@ -17,9 +19,13 @@
         <ToolbarItem Text="Update Home Details" Command="{Binding GoToSelectedHomeSettingsCommand}"/>
     </ContentPage.ToolbarItems>
 
+    <ContentPage.Behaviors>
+        <xct:EventToCommandBehavior EventName="Appearing" Command="{Binding GetListOfItemFromDbCommand}" />
+    </ContentPage.Behaviors>
+
     <Grid Margin="2,2,2,2">
         <!--List of groceries-->
-        <CollectionView ItemsSource="{Binding GroceryList}"
+        <CollectionView ItemsSource="{Binding ShoppingList}"
                         IsVisible="{Binding IsNotBusy}"
                         SelectionMode="Single"
                         SelectionChangedCommand="{Binding GoToSingleShoppingItemPageCommand}"
@@ -27,6 +33,18 @@
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
             </CollectionView.ItemsLayout>
+
+            <CollectionView.EmptyView >
+
+                <StackLayout VerticalOptions="CenterAndExpand"
+                                 HorizontalOptions="CenterAndExpand">
+                    <Label Text="You don't any have added shopping items"
+                               HorizontalOptions="CenterAndExpand"
+                               VerticalOptions="CenterAndExpand"
+                               FontSize="20"
+                               TextColor="{StaticResource  BarBackround}"/>
+                </StackLayout>
+            </CollectionView.EmptyView>
 
             <CollectionView.ItemTemplate>
 
@@ -68,27 +86,35 @@
                                        VerticalOptions="StartAndExpand"
                                        BackgroundColor="{StaticResource BarBackround}"
                                        CornerRadius="80"
-                                       Margin="0,-35,-10,0"
-                                       HeightRequest="50"
-                                       WidthRequest="50">
-                                    <Label Text="{Binding Quantity}"
-                                           Margin="0,10,10,0"
-                                           TextColor="White"
-                                           FontSize="20"/>
+                                       Margin="0,-35,0,0"
+                                       HeightRequest="40"
+                                       WidthRequest="90">
+
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="{Binding Quantity}"
+                                               Margin="0,10,0,0"
+                                               TextColor="White"
+                                               FontSize="20"/>
+                                        <Label Text="{Binding QuantityType}"
+                                               Margin="0,10,10,0"
+                                               TextColor="White"
+                                               FontSize="20"/>
+                                    </StackLayout>
+                                    
                                 </Frame>
 
-                                <Frame HorizontalOptions="EndAndExpand"
+                                <Button HorizontalOptions="EndAndExpand"
                                        VerticalOptions="EndAndExpand"
                                        CornerRadius="80"
-                                       Margin="-28"
-                                       HeightRequest="50"
-                                       WidthRequest="50"
-                                       Opacity="0.7">
-                                    <Label Text="{x:Static fontawesome:FontAwesomeIcons.Check}"
-                                           FontFamily="FAS"
-                                           TextColor="{StaticResource BarBackround}"
-                                           FontSize="30"/>
-                                </Frame>
+                                       Margin="-8"
+                                       HeightRequest="67"
+                                       WidthRequest="75"
+                                        BackgroundColor="White"
+                                       Opacity="0.7"
+                                        Text="{x:Static fontawesome:FontAwesomeIcons.Check}"
+                                        FontFamily="FAS"
+                                        TextColor="{StaticResource BarBackround}"
+                                        FontSize="30"/>
                             </Grid>
                             
                           
