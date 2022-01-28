@@ -82,7 +82,9 @@
                             <Entry.Behaviors>
                                 <xct:NumericValidationBehavior MinimumValue="1"
                                                                MaximumValue="1000"
-									                           InvalidStyle="{StaticResource InvalidEntryStyle}"/>
+									                           InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                                               IsValid="{Binding IsQuantityValid}"
+                                                               Flags="ValidateOnUnfocusing"/>
                             </Entry.Behaviors>
                         </Entry>
                         

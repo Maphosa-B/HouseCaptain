@@ -101,7 +101,7 @@ namespace HouseCaptain.ViewModels.Homes
             {
                 var Status = HomesService.DeleteHomesAsync(RetrivedHome.Id);
                 await Application.Current.MainPage.DisplayAlert(null, $"{RetrivedHome.Name.Transform(To.TitleCase)} has been deleted", "Okay");
-                await Shell.Current.GoToAsync(nameof(HomesListPage));
+                await Shell.Current.GoToAsync($"{nameof(HomesListPage)}");
             }
             else
             {

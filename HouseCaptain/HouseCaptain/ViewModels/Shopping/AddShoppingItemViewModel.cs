@@ -18,9 +18,10 @@ namespace HouseCaptain.ViewModels.Shopping
         //Variable to flag UI
         private bool _IsImageAvailable = false;
         private bool _IsImageNotAvailable = false;
-       
-        
-        
+        private bool _IsQuantityEmpty = false;
+
+
+
         //Private variables to collect data
         private String _ImagePath;
         private String _ItemName;
@@ -44,6 +45,12 @@ namespace HouseCaptain.ViewModels.Shopping
             set => SetProperty(ref _ItemName,value); 
         }
 
+        public bool IsQuantityValid
+        { 
+            get => _IsQuantityEmpty; 
+            set => SetProperty(ref _IsQuantityEmpty, value); 
+        } 
+        
 
         public String QuantityType
         {
@@ -99,6 +106,7 @@ namespace HouseCaptain.ViewModels.Shopping
             //Initial selected Category 
             Category = ShoppingItemCategoriesList[0];
             QuantityType = QuantityTypes[0];
+            IsQuantityValid = true;
 
 
             CaptureImageCommand = new AsyncCommand(CaptureAnImageAsync);
@@ -210,7 +218,7 @@ namespace HouseCaptain.ViewModels.Shopping
             //Validating inputs
             if(String.IsNullOrEmpty(ItemName))
             {
-                await Application.Current.MainPage.DisplayAlert(null, "Name cannot be blank - "+ ItemName, "Okay");
+                await Application.Current.MainPage.DisplayAlert(null, "Name cannot be blank", "Okay");
                 return;
             }
 
@@ -220,6 +228,11 @@ namespace HouseCaptain.ViewModels.Shopping
                 return;
             }
 
+            if (IsQuantityValid==false || String.IsNullOrEmpty(Quantity))
+            {
+                await Application.Current.MainPage.DisplayAlert(null, "Please enter a quantity", "Okay");
+                return;
+            }
 
             ShoppingItemEntity Item = new ShoppingItemEntity
             {

@@ -22,6 +22,7 @@ namespace HouseCaptain.Services.Version_1
 
                 //if db is null then we create connection and create Homses table
                 await db.CreateTableAsync<ShoppingItemEntity>();
+
             }
             else
             {
@@ -62,6 +63,32 @@ namespace HouseCaptain.Services.Version_1
                             .ToListAsync();
         }
 
+        public static async Task<List<ShoppingItemEntity>> GetShoppingItemsHistoryAsync(int HomeId,int? filter)
+        {
+            //Initializing connection
+            await InitializeConnection();
+
+
+            if(filter==2)
+            {
+                return await db.Table<ShoppingItemEntity>()
+                            .Where(x => x.Status == 2 && x.HomeId == HomeId).Take(10)
+                            .ToListAsync();
+            }else if(filter==3)
+            {
+                return await db.Table<ShoppingItemEntity>()
+                            .Where(x => x.Status == 2 && x.HomeId == HomeId).Take(10)
+                            .ToListAsync();
+            }
+            else
+            {
+                return await db.Table<ShoppingItemEntity>()
+                            .Where(x => x.Status > 1 && x.HomeId == HomeId).Take(10)
+                            .ToListAsync();
+            }
+            
+        }
+
         public static async Task<ShoppingItemEntity> GetSingleShoppingItemsAsync(int Id)
         {
             //Initializing connection
@@ -84,7 +111,7 @@ namespace HouseCaptain.Services.Version_1
             return await db.UpdateAsync(data);
         }
 
-        public static async Task<int> UpdateHomesAsync(ShoppingItemEntity ShoppingItem)
+        public static async Task<int> UpdateShoppingItemAsync(ShoppingItemEntity ShoppingItem)
         {
             //Initializing connection
             await InitializeConnection();
@@ -97,6 +124,30 @@ namespace HouseCaptain.Services.Version_1
             data.ImgUrl = ShoppingItem.ImgUrl;
             data.LastModificationDate = DateTime.Now;
             data.QuantityType = ShoppingItem.QuantityType;
+
+            return await db.UpdateAsync(data);
+        }
+
+        public static async Task<int> CheckoutItemAsync(int Id)
+        {
+            //Initializing connection
+            await InitializeConnection();
+
+            var data = await db.Table<ShoppingItemEntity>().Where(x => x.Id == Id).FirstOrDefaultAsync();
+
+            data.Status = 2;
+
+            return await db.UpdateAsync(data);
+        }
+
+        public static async Task<int> CamcelItemAsync(int Id)
+        {
+            //Initializing connection
+            await InitializeConnection();
+
+            var data = await db.Table<ShoppingItemEntity>().Where(x => x.Id == Id).FirstOrDefaultAsync();
+
+            data.Status = 3;
 
             return await db.UpdateAsync(data);
         }

@@ -2,6 +2,7 @@
 using HouseCaptain.Services.Version_1;
 using HouseCaptain.Views.Homes;
 using HouseCaptain.Views.Shopping;
+using Humanizer;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
 using System;
@@ -35,6 +36,7 @@ namespace HouseCaptain.ViewModels.Shopping
 
         public ShoppingListViewModel()
         {
+            IsNavigated = 0;
 
             ShoppingList = new ObservableRangeCollection<ShoppingItemModel>();
 
@@ -73,12 +75,10 @@ namespace HouseCaptain.ViewModels.Shopping
             IsBusy = true;
             IsNotBusy = false;
 
-            if (IsNavigated == 0)
-            {
-                IsNavigated++;
-                await Shell.Current.GoToAsync($"{nameof(ShoppingHistoryPage)}?HomeId={_HomeId}");
-                IsNavigated = 0;
-            }
+
+            IsNavigated++;
+            await Shell.Current.GoToAsync($"{nameof(ShoppingHistoryPage)}?HomeId={_HomeId}");
+            IsNavigated = 0;
 
             IsBusy = false;
             IsNotBusy = true;
@@ -140,9 +140,9 @@ namespace HouseCaptain.ViewModels.Shopping
                 {
                     Id = i.Id,
                     ImgUrl = i.ImgUrl,
-                    Name = i.Name,
+                    Name = i.Name.Truncate(18, "..."),
                     CategoryId = 1,
-                    Notes = i.Notes,
+                    Notes = i.Notes.Truncate(35, "..."),
                     Quantity = i.Quantity,
                     QuantityType = i.QuantityType
                 };

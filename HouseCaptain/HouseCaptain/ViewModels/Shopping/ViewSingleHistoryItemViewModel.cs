@@ -10,11 +10,13 @@ using Xamarin.Forms;
 
 namespace HouseCaptain.ViewModels.Shopping
 {
-    public class ViewSingleShoppingItemViewModel: MyBaseViewModel, IQueryAttributable
+    public class ViewSingleHistoryItemViewModel:MyBaseViewModel,IQueryAttributable
     {
         private String _Name;
         private String _Notes;
         private String _ImgUrl;
+        private String _AddDate;
+        private String _Updatedate;
         private int _Quantity;
         private String _QuantityType;
         private bool _AreNotesAdded;
@@ -23,15 +25,25 @@ namespace HouseCaptain.ViewModels.Shopping
 
 
 
-        public String Name 
-        { 
-           get=>_Name; 
-           set=>SetProperty(ref _Name,value); 
+        public String Name
+        {
+            get => _Name;
+            set => SetProperty(ref _Name, value);
         }
         public String Notes
         {
             get => _Notes;
             set => SetProperty(ref _Notes, value);
+        }
+        public String AddDate
+        {
+            get => _AddDate;
+            set => SetProperty(ref _AddDate, value);
+        }
+        public String Updatedate
+        {
+            get => _Updatedate;
+            set => SetProperty(ref _Updatedate, value);
         }
         public String ImgUrl
         {
@@ -60,17 +72,17 @@ namespace HouseCaptain.ViewModels.Shopping
 
 
         //Commands
-        public AsyncCommand CheckoutItemCommad{ get; set; }
-        public AsyncCommand CancelItemCommad{ get; set; }
+        public AsyncCommand CheckoutItemCommad { get; set; }
+        public AsyncCommand CancelItemCommad { get; set; }
 
         public AsyncCommand PopulateItemDataCommad { get; set; }
 
 
-        public ViewSingleShoppingItemViewModel()
+        public ViewSingleHistoryItemViewModel()
         {
             CheckoutItemCommad = new AsyncCommand(CheckoutAsync);
             CancelItemCommad = new AsyncCommand(CamcelItemFromlistAsync);
-            PopulateItemDataCommad  = new AsyncCommand(populateItemDetailsAsync);
+            PopulateItemDataCommad = new AsyncCommand(populateItemDetailsAsync);
 
         }
 
@@ -90,7 +102,8 @@ namespace HouseCaptain.ViewModels.Shopping
 
                 await Application.Current.MainPage.DisplayAlert(null, "Item has been checked out", "Okay");
                 await Shell.Current.GoToAsync("..");
-            }else
+            }
+            else
             {
                 IsBusy = false;
                 IsNotBusy = true;
@@ -100,11 +113,11 @@ namespace HouseCaptain.ViewModels.Shopping
             }
 
 
-        } 
-        
+        }
+
         async Task CamcelItemFromlistAsync()
         {
-            if((await Application.Current.MainPage.DisplayActionSheet("Are you sure you want to delete this item from the list","Yes","No")).Equals("Yes"))
+            if ((await Application.Current.MainPage.DisplayActionSheet("Are you sure you want to delete this item from the list", "Yes", "No")).Equals("Yes"))
             {
                 IsBusy = true;
                 IsNotBusy = false;
@@ -123,7 +136,7 @@ namespace HouseCaptain.ViewModels.Shopping
 
                 IsBusy = false;
                 IsNotBusy = true;
-            }      
+            }
         }
 
 
@@ -137,11 +150,13 @@ namespace HouseCaptain.ViewModels.Shopping
         {
             var item = await ShoppingService.GetSingleShoppingItemsAsync(Convert.ToInt32(ItemId));
 
-            Name = item.Name.Truncate(20,"...");
+            Name = item.Name.Truncate(20, "...");
             Notes = item.Notes;
             Quantity = item.Quantity;
             QuantityType = item.QuantityType;
             ImgUrl = item.ImgUrl;
+            AddDate = item.AddDate.Humanize();
+            Updatedate = item.LastModificationDate.Humanize();
 
             if (String.IsNullOrEmpty(Notes))
             {
@@ -150,9 +165,9 @@ namespace HouseCaptain.ViewModels.Shopping
             else
             {
                 AreNotesAdded = true;
-                
+
             }
-            
+
         }
     }
 }
