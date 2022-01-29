@@ -1,9 +1,162 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:ViewModels.Shopping="clr-namespace:HouseCaptain.ViewModels.Shopping"
+             xmlns:fontawesome="clr-namespace:FontAwesome"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="HouseCaptain.Views.Shopping.RegularShoppingItemsListPage"
+             xmlns:ItemsModel="clr-namespace:HouseCaptain.Entities"
              ControlTemplate="{StaticResource DecorationTemplate}"
+             x:DataType="ViewModels.Shopping:RegularShoppingItemsListViewModel"
              Title="Regular Shopping Items">
   
+    <ContentPage.BindingContext>
+        <ViewModels.Shopping:RegularShoppingItemsListViewModel/>
+    </ContentPage.BindingContext>
+
+
+    <ContentPage.Behaviors>
+        <xct:EventToCommandBehavior EventName="Appearing" Command="{Binding GetRegularItemsCommand}" />
+    </ContentPage.Behaviors>
+
+    <Grid Margin="2,2,2,2">
+        <!--List of groceries-->
+        <CollectionView ItemsSource="{Binding ItemsList}"
+                        IsVisible="{Binding IsNotBusy}"
+                        SelectionMode="Single">
+
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.EmptyView >
+
+                <StackLayout VerticalOptions="CenterAndExpand"
+                                 HorizontalOptions="CenterAndExpand">
+                    <Label Text="You don't have any items on this shopping list"
+                               HorizontalOptions="CenterAndExpand"
+                               VerticalOptions="CenterAndExpand"
+                               FontSize="20"
+                               TextColor="{StaticResource  BarBackround}"/>
+                </StackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+
+                <DataTemplate  x:DataType="ItemsModel:RegularItemsEntity">
+
+
+                    <StackLayout>
+                        <!--Frame that encapsulate each item-->
+                        <Frame BackgroundColor="{StaticResource ListColor}"
+                               Padding="3"
+                               CornerRadius="50"
+                               HasShadow="True"
+                               HeightRequest="70">
+                            <Grid>
+                                <StackLayout Orientation="Horizontal">
+                                    <Frame HeightRequest="70"
+                                           WidthRequest="90"
+                                           Padding="0"
+                                           CornerRadius="80">
+                                        <Image Source="{Binding ImgUrl}"
+                                              Aspect="AspectFill"/>
+                                    </Frame>
+
+                                    <StackLayout Margin="5,0,0,0">
+                                        <Label Text="{Binding Name}"
+                                               TextColor="White"
+                                               FontSize="30"/>
+                                    </StackLayout>
+                                </StackLayout>
+
+
+                                <Frame HorizontalOptions="EndAndExpand"
+                                       VerticalOptions="StartAndExpand"
+                                       BackgroundColor="{StaticResource BarBackround}"
+                                       CornerRadius="80"
+                                       Margin="0,-35,0,0"
+                                       HeightRequest="40"
+                                       WidthRequest="70">
+                                </Frame>
+
+                                <!---->
+                                <Frame  HorizontalOptions="EndAndExpand"
+                                        VerticalOptions="EndAndExpand"
+                                        CornerRadius="80"
+                                        Margin="0,0,-20,-10"
+                                        HeightRequest="67"
+                                        WidthRequest="85"
+                                        BackgroundColor="White"
+                                       Opacity="0.7"
+                                        Padding="0">
+
+                                    <Label Text="{x:Static fontawesome:FontAwesomeIcons.CartPlus}"
+                                           HorizontalOptions="CenterAndExpand"
+                                           FontFamily="FAS"
+                                           VerticalOptions="CenterAndExpand"
+                                           Margin="-15,0,0,0"
+                                           TextColor="{StaticResource BarBackround}"
+                                           FontSize="20"/>
+                                </Frame>
+                            </Grid>
+
+                        </Frame>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+
+        <!--Button to view history of grocery list-->
+        <Frame BackgroundColor="{StaticResource BarBackround}"
+               HorizontalOptions="EndAndExpand"
+               VerticalOptions="EndAndExpand"
+               WidthRequest="120"
+               HeightRequest="100"
+               CornerRadius="70"
+               Margin="100,0,20,-70"
+               BorderColor="White">
+
+            <Button Text="{x:Static fontawesome:FontAwesomeIcons.Trash}"
+                    TextColor="White"
+                    FontFamily="FAS"
+                    BackgroundColor="Transparent"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="CenterAndExpand"
+                    FontSize="40"
+                    Margin="-40,-40,0,0" />
+
+        </Frame>
+
+        <!--Button to add Item-->
+        <Frame BackgroundColor="{StaticResource BarBackround}"
+               HorizontalOptions="EndAndExpand"
+               VerticalOptions="EndAndExpand"
+               WidthRequest="100"
+               HeightRequest="100"
+               CornerRadius="90"
+               Margin="-30,-30,-40,-30"
+               BorderColor="White">
+            <StackLayout>
+
+                <Button Text="{x:Static fontawesome:FontAwesomeIcons.Pencil}"
+                        TextColor="White"
+                        FontFamily="FAS"
+                        BackgroundColor="Transparent"
+                        HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="CenterAndExpand"
+                        FontSize="40"
+                        Margin="0,-20,0,0"/>
+            </StackLayout>
+        </Frame>
+
+        <ActivityIndicator IsRunning="{Binding IsBusy}"
+                           HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="CenterAndExpand"
+                           HeightRequest="100"
+                           WidthRequest="200"
+                           Color="{StaticResource BarBackround}"/>
+    </Grid>
 
 </ContentPage>
