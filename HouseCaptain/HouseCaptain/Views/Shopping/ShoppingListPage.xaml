@@ -19,119 +19,67 @@
         <xct:EventToCommandBehavior EventName="Appearing" Command="{Binding GetListOfItemFromDbCommand}" />
     </ContentPage.Behaviors>
 
-    <StackLayout>
-        <Frame HeightRequest="45"
-               VerticalOptions="StartAndExpand"
-               HorizontalOptions="StartAndExpand"
-
-               CornerRadius="30"
-               BackgroundColor="{StaticResource BarBackround}"
-               BorderColor="White"
-               Padding="5,2">
-
-            <CollectionView ItemsSource="{Binding ShoppingItemCategoriesList}"
-                            HorizontalOptions="CenterAndExpand"
-                            VerticalOptions="CenterAndExpand"
-                            Margin="4"
-                            SelectionMode="Single"
-                            SelectedItem="{Binding SelectedFilter}"
-                            SelectionChangedCommand="{Binding FilterAlistCommand}">
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout ItemSpacing="5" Orientation="Horizontal"/>
-                </CollectionView.ItemsLayout>
-
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-
-                        <StackLayout Background="white"
-                                        Padding="5">
-                                    
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup Name="CommonStates">
-                                    <VisualState Name="Normal" />
-                                    <VisualState Name="Selected">
-                                        <VisualState.Setters>
-                                            <Setter Property="BackgroundColor" Value="White" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-
-                                </VisualStateGroup>
-                                </VisualStateManager.VisualStateGroups>
-
-                             <Label Text="{Binding .}"
-                                    TextColor="{StaticResource  DarkBackroundColor}"
-                                    FontSize="20"/>
-                            </StackLayout>
-                           
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-
-        </Frame>
-
-
-        <Grid Margin="2,2,2,2">
-
-            <!--List of groceries-->
-            <CollectionView ItemsSource="{Binding ShoppingList}"
+    <Grid Margin="2,2,2,2">
+        <!--List of groceries-->
+        <CollectionView ItemsSource="{Binding ShoppingList}"
                         IsVisible="{Binding IsNotBusy}"
                         SelectionMode="Single"
                         SelectionChangedCommand="{Binding GoToSingleShoppingItemPageCommand}"
                         SelectedItem="{Binding SelectedItem}">
 
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
-                </CollectionView.ItemsLayout>
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
+            </CollectionView.ItemsLayout>
 
-                <CollectionView.EmptyView >
+            <CollectionView.EmptyView >
 
-                    <StackLayout VerticalOptions="CenterAndExpand"
+                <StackLayout VerticalOptions="CenterAndExpand"
                                  HorizontalOptions="CenterAndExpand">
-                        <Label Text="You don't have any items on this shopping list"
+                    <Label Text="You don't have any items on this shopping list"
                                HorizontalOptions="CenterAndExpand"
                                VerticalOptions="CenterAndExpand"
                                FontSize="20"
                                TextColor="{StaticResource  BarBackround}"/>
-                    </StackLayout>
-                </CollectionView.EmptyView>
+                </StackLayout>
+            </CollectionView.EmptyView>
 
-                <CollectionView.ItemTemplate>
+            <CollectionView.ItemTemplate>
 
-                    <DataTemplate  x:DataType="ItemModel:ShoppingItemModel">
+                <DataTemplate  x:DataType="ItemModel:ShoppingItemModel">
 
 
-                        <StackLayout>
-                            <!--Frame that encapsulate each item-->
-                            <Frame BackgroundColor="{StaticResource ListColor}"
+                    <StackLayout>
+                        <!--Frame that encapsulate each item-->
+                        <Frame BackgroundColor="{StaticResource ListColor}"
                                Padding="3"
                                CornerRadius="50"
                                HasShadow="True"
                                HeightRequest="70">
-                                <Grid>
-                                    <StackLayout Orientation="Horizontal">
-                                        <Frame HeightRequest="70"
+                            <Grid>
+                                <StackLayout Orientation="Horizontal">
+                                    <Frame HeightRequest="70"
                                            WidthRequest="90"
                                            Padding="0"
                                            CornerRadius="80">
-                                            <Image Source="{Binding ImgUrl}"
+                                        <Image Source="{Binding ImgUrl}"
                                               Aspect="AspectFill"/>
-                                        </Frame>
+                                    </Frame>
 
-                                        <StackLayout Margin="5,0,0,0">
-                                            <Label Text="{Binding Name}"
+                                    <StackLayout Margin="5,0,0,0">
+                                        <Label Text="{Binding Name}"
                                                TextColor="White"
                                                FontSize="30"/>
-                                            <Label Text="{Binding Notes}"
+                                        <Label Text="{Binding Notes}"
                                                TextColor="{StaticResource BarBackround}"
                                                FontSize="15"
                                                Margin="0,-8,0,0"/>
-                                        </StackLayout>
-
-
                                     </StackLayout>
 
 
-                                    <Frame HorizontalOptions="EndAndExpand"
+                                </StackLayout>
+
+
+                                <Frame HorizontalOptions="EndAndExpand"
                                        VerticalOptions="StartAndExpand"
                                        BackgroundColor="{StaticResource BarBackround}"
                                        CornerRadius="80"
@@ -140,14 +88,14 @@
                                        WidthRequest="70">
 
 
-                                        <Label Text="{Binding Quantity}"
+                                    <Label Text="{Binding Quantity}"
                                                Margin="0,20,0,0"
                                                TextColor="White"
                                                FontSize="20"/>
-                                    </Frame>
+                                </Frame>
 
-                                    <!---->
-                                    <Frame  HorizontalOptions="EndAndExpand"
+                                <!---->
+                                <Frame  HorizontalOptions="EndAndExpand"
                                         VerticalOptions="EndAndExpand"
                                         CornerRadius="80"
                                         Margin="0,0,-20,-10"
@@ -157,28 +105,23 @@
                                        Opacity="0.7"
                                         Padding="0">
 
-                                        <Label Text="{Binding QuantityType}"
+                                    <Label Text="{Binding QuantityType}"
                                            HorizontalOptions="CenterAndExpand"
                                            VerticalOptions="CenterAndExpand"
                                            Margin="-15,0,0,0"
                                            TextColor="{StaticResource BarBackround}"
                                            FontSize="20"/>
-                                    </Frame>
-                                </Grid>
+                                </Frame>
+                            </Grid>
 
-                            </Frame>
-                        </StackLayout>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                        </Frame>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
-
-
-
-
-
-            <!--Button to view group members-->
-            <Frame BackgroundColor="{StaticResource BarBackround}"
+        <!--Button to view group members-->
+        <Frame BackgroundColor="{StaticResource BarBackround}"
                HorizontalOptions="EndAndExpand"
                VerticalOptions="EndAndExpand"
                WidthRequest="140"
@@ -188,7 +131,7 @@
                BorderColor="White">
 
 
-                <Button Text="{x:Static fontawesome:FontAwesomeIcons.Edit}"
+            <Button Text="{x:Static fontawesome:FontAwesomeIcons.Edit}"
                     TextColor="White"
                     FontFamily="FAS"
                     BackgroundColor="Transparent"
@@ -198,11 +141,11 @@
                     Margin="-60,-80,0,0"
                     Command="{Binding  GoToSelectedHomeSettingsCommand}"/>
 
-            </Frame>
+        </Frame>
 
 
-            <!--Button to view history of grocery list-->
-            <Frame BackgroundColor="{StaticResource BarBackround}"
+        <!--Button to view history of grocery list-->
+        <Frame BackgroundColor="{StaticResource BarBackround}"
                HorizontalOptions="EndAndExpand"
                VerticalOptions="EndAndExpand"
                WidthRequest="120"
@@ -211,7 +154,7 @@
                Margin="100,0,20,-70"
                BorderColor="White">
 
-                <Button Text="{x:Static fontawesome:FontAwesomeIcons.History}"
+            <Button Text="{x:Static fontawesome:FontAwesomeIcons.History}"
                     TextColor="White"
                     FontFamily="FAS"
                     BackgroundColor="Transparent"
@@ -221,10 +164,10 @@
                     Margin="-40,-40,0,0" 
                    Command="{Binding GoToShoppingListHistoryPageCommand}"/>
 
-            </Frame>
+        </Frame>
 
-            <!--Button to add Item-->
-            <Frame BackgroundColor="{StaticResource BarBackround}"
+        <!--Button to add Item-->
+        <Frame BackgroundColor="{StaticResource BarBackround}"
                HorizontalOptions="EndAndExpand"
                VerticalOptions="EndAndExpand"
                WidthRequest="100"
@@ -232,9 +175,9 @@
                CornerRadius="90"
                Margin="-30,-30,-40,-30"
                BorderColor="White">
-                <StackLayout>
+            <StackLayout>
 
-                    <Button Text="+"
+                <Button Text="+"
                         TextColor="White"
                         BackgroundColor="Transparent"
                         HorizontalOptions="CenterAndExpand"
@@ -242,17 +185,14 @@
                         FontSize="70"
                         Margin="0,-20,0,0" 
                         Command="{Binding GoToAddShoppingItemPageCommand}"/>
-                </StackLayout>
-            </Frame>
+            </StackLayout>
+        </Frame>
 
-            <ActivityIndicator IsRunning="{Binding IsBusy}"
+        <ActivityIndicator IsRunning="{Binding IsBusy}"
                            HorizontalOptions="CenterAndExpand"
                            VerticalOptions="CenterAndExpand"
                            HeightRequest="100"
                            WidthRequest="200"
                            Color="{StaticResource BarBackround}"/>
-        </Grid>
-    </StackLayout>
-    
-    
+    </Grid>
 </ContentPage>

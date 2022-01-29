@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:ViewModels.Shopping="clr-namespace:HouseCaptain.ViewModels.Shopping"
              xmlns:fontAwesome="clr-namespace:FontAwesome"
+             xmlns:fontawesome="clr-namespace:FontAwesome"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:DataType="ViewModels.Shopping:AddShoppingItemViewModel"
              x:Class="HouseCaptain.Views.Shopping.AddShoppingItemPage"
@@ -161,6 +162,28 @@
             </ScrollView>
         </StackLayout>
 
+
+        <Frame BackgroundColor="{StaticResource BarBackround}"
+               HorizontalOptions="EndAndExpand"
+               VerticalOptions="EndAndExpand"
+               WidthRequest="120"
+               HeightRequest="100"
+               CornerRadius="70"
+               Margin="100,0,20,-70"
+               BorderColor="White">
+
+            <Button Text="{x:Static fontawesome:FontAwesomeIcons.Recycle}"
+                    TextColor="White"
+                    FontFamily="FAS"
+                    BackgroundColor="Transparent"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="CenterAndExpand"
+                    FontSize="40"
+                    Margin="-40,-40,0,0" />
+
+        </Frame>
+
+        
         <!--Button to add Item-->
         <Frame BackgroundColor="{StaticResource BarBackround}"
                HorizontalOptions="EndAndExpand"
@@ -187,5 +210,8 @@
                         Command="{Binding AddShoppingIteCommand}"/>
             </StackLayout>
         </Frame>
+
+
+
     </Grid>
 </ContentPage>

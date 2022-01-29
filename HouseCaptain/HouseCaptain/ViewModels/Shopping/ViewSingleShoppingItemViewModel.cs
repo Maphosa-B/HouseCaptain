@@ -153,6 +153,8 @@ namespace HouseCaptain.ViewModels.Shopping
             ImgUrl = item.ImgUrl;
             AddDate = item.AddDate.ToOrdinalWords();
 
+            Title = Name;
+
             if (String.IsNullOrEmpty(Notes))
             {
                 AreNotesAdded = false;

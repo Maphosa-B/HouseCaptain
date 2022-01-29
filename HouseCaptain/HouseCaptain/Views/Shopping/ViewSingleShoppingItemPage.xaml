@@ -17,9 +17,11 @@
         <ViewModels.Shopping:ViewSingleShoppingItemViewModel/>
     </ContentPage.BindingContext>
 
-    <Grid Margin="3">
+    
+    <Grid Margin="3" 
+          IsVisible="{Binding IsNotBusy}">
 
-        <ScrollView>
+        <ScrollView IsVisible="{Binding IsNotBusy}">
             <StackLayout IsVisible="{Binding IsNotBusy}">
 
                 <Frame Padding="0" HeightRequest="500">
@@ -78,7 +80,8 @@
 
 
                 <!--Section of details-->
-                <Frame BackgroundColor="{StaticResource BarBackround}">
+                <Frame BackgroundColor="{StaticResource BarBackround}"
+                       IsVisible="{Binding IsNotBusy}">
 
                     <StackLayout>
 
@@ -114,6 +117,53 @@
                 </Frame>
             </StackLayout>
         </ScrollView>
+
+
+        <!--Button to view history of grocery list-->
+        <Frame BackgroundColor="{StaticResource BarBackround}"
+               HorizontalOptions="EndAndExpand"
+               VerticalOptions="EndAndExpand"
+               WidthRequest="120"
+               HeightRequest="100"
+               CornerRadius="70"
+               Margin="100,0,20,-70"
+               BorderColor="White">
+
+            <Button Text="{x:Static fontawesome:FontAwesomeIcons.Trash}"
+                    TextColor="White"
+                    FontFamily="FAS"
+                    BackgroundColor="Transparent"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="CenterAndExpand"
+                    FontSize="30"
+                    Margin="-40,-40,0,0" 
+                   Command="{Binding CancelItemCommad}"/>
+
+        </Frame>
+
+        <!--Button to add Item-->
+        <Frame BackgroundColor="{StaticResource BarBackround}"
+               HorizontalOptions="EndAndExpand"
+               VerticalOptions="EndAndExpand"
+               WidthRequest="100"
+               HeightRequest="100"
+               CornerRadius="90"
+               Margin="-30,-30,-40,-30"
+               BorderColor="White">
+            <StackLayout>
+
+                <Button Text="{x:Static fontawesome:FontAwesomeIcons.Check}"
+                        TextColor="White"
+                        FontFamily="FAS"
+                        BackgroundColor="Transparent"
+                        HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="CenterAndExpand"
+                        FontSize="50"
+                        Margin="0,-20,0,0" 
+                        Command="{Binding CheckoutItemCommad}"/>
+            </StackLayout>
+        </Frame>
+
 
 
         <!--Preloader-->

@@ -171,9 +171,7 @@ namespace HouseCaptain.Services.Version_1
 
             var data = await db.Table<ShoppingItemEntity>().Where(x => x.Id == Id).FirstOrDefaultAsync();
 
-            await db.DeleteAsync<ShoppingItemEntity>(data);
-
-            return await db.UpdateAsync(data);
+            return await db.DeleteAsync<ShoppingItemEntity>(Id);
         }
 
     }
