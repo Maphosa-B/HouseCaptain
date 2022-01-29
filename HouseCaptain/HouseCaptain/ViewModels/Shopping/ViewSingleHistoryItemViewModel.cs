@@ -155,8 +155,8 @@ namespace HouseCaptain.ViewModels.Shopping
             Quantity = item.Quantity;
             QuantityType = item.QuantityType;
             ImgUrl = item.ImgUrl;
-            AddDate = item.AddDate.Humanize();
-            Updatedate = item.LastModificationDate.Humanize();
+            AddDate = item.AddDate.ToOrdinalWords();
+            Updatedate = item.LastModificationDate.ToOrdinalWords();
 
             if (String.IsNullOrEmpty(Notes))
             {

@@ -18,6 +18,7 @@ namespace HouseCaptain.ViewModels.Shopping
         private int _Quantity;
         private String _QuantityType;
         private bool _AreNotesAdded;
+        private String _AddDate;
 
 
 
@@ -55,6 +56,11 @@ namespace HouseCaptain.ViewModels.Shopping
             set => SetProperty(ref _AreNotesAdded, value);
         }
 
+        public String AddDate
+        {
+            get => _AddDate;
+            set => SetProperty(ref _AddDate, value);
+        }
 
         private string ItemId { get; set; }
 
@@ -71,6 +77,9 @@ namespace HouseCaptain.ViewModels.Shopping
             CheckoutItemCommad = new AsyncCommand(CheckoutAsync);
             CancelItemCommad = new AsyncCommand(CamcelItemFromlistAsync);
             PopulateItemDataCommad  = new AsyncCommand(populateItemDetailsAsync);
+
+
+            Title = Name;
 
         }
 
@@ -142,6 +151,7 @@ namespace HouseCaptain.ViewModels.Shopping
             Quantity = item.Quantity;
             QuantityType = item.QuantityType;
             ImgUrl = item.ImgUrl;
+            AddDate = item.AddDate.ToOrdinalWords();
 
             if (String.IsNullOrEmpty(Notes))
             {

@@ -22,14 +22,12 @@
         <ScrollView>
             <StackLayout IsVisible="{Binding IsNotBusy}">
 
-                <Frame Padding="0">
+                <Frame Padding="0" HeightRequest="500">
                     <StackLayout>
                         <BoxView BackgroundColor="{StaticResource BarBackround}"
                                  HeightRequest="3"
                                  WidthRequest="200"
                                  HorizontalOptions="FillAndExpand"/>
-                       
-                        
 
                         <StackLayout Orientation="Horizontal"
                                      Margin="0,0,10,0">
@@ -62,9 +60,11 @@
                         <Frame Margin="0"
                                Padding="0"
                                HorizontalOptions="FillAndExpand"
-                               VerticalOptions="FillAndExpand">
+                               VerticalOptions="StartAndExpand"                              
+                               HeightRequest="430"
+                               >
                             <Image Source="{Binding ImgUrl}" 
-                               Aspect="AspectFill"/>
+                                   Aspect="AspectFill"/>
                         </Frame>
 
                         <BoxView BackgroundColor="{StaticResource BarBackround}"
@@ -75,71 +75,48 @@
                 </Frame>
 
 
-                <StackLayout VerticalOptions="StartAndExpand"
-                         Margin="0"
-                         Padding="10">
 
-                    <StackLayout Orientation="Horizontal" 
-                             IsVisible="{Binding AreNotesAdded}">
+
+                <!--Section of details-->
+                <Frame BackgroundColor="{StaticResource BarBackround}">
+
+                    <StackLayout>
+
+
+                        <!--Date of adding item-->
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="{x:Static fontawesome:FontAwesomeIcons.CalendarPlus}"
+                                    FontFamily="FAS"
+                                    FontSize="23"
+                                    TextColor="White"/>
+
+                            <Label Text="{Binding AddDate}"
+                                    FontSize="23"
+                                    TranslationY="-3"
+                                    TextColor="White"/>
+                        </StackLayout>
+
+                    </StackLayout>
+                </Frame>
+
+                <!--Section of notes-->
+                <Frame BackgroundColor="{StaticResource BarBackround}"
+                       Padding="10,0,0,0"
+                       IsVisible="{Binding AreNotesAdded}">
+                    <StackLayout VerticalOptions="StartAndExpand"
+                                 Margin="0"
+                                 Padding="10">
                         <Label Text="{Binding Notes}"
                                FontSize="23"
                                TranslationY="-3"
-                              TextColor="Gray"/>
+                              TextColor="White"/>
                     </StackLayout>
-                </StackLayout>
-
-
+                </Frame>
             </StackLayout>
-
         </ScrollView>
-    
-        <!--Button to view history of grocery list-->
-        <Frame BackgroundColor="{StaticResource BarBackround}"
-               HorizontalOptions="EndAndExpand"
-               VerticalOptions="EndAndExpand"
-               WidthRequest="120"
-               HeightRequest="100"
-               CornerRadius="70"
-               Margin="100,0,20,-70"
-               BorderColor="White"
-               IsVisible="{Binding IsNotBusy}">
 
-            <Button Text="{x:Static fontawesome:FontAwesomeIcons.Trash}"
-                    TextColor="White"
-                    FontFamily="FAS"
-                    BackgroundColor="Transparent"
-                    HorizontalOptions="CenterAndExpand"
-                    VerticalOptions="CenterAndExpand"
-                    FontSize="30"
-                    Margin="-40,-40,0,0" 
-                   Command="{Binding CancelItemCommad}"/>
 
-        </Frame>
-
-        <!--Button to add Item-->
-        <Frame BackgroundColor="{StaticResource BarBackround}"
-               HorizontalOptions="EndAndExpand"
-               VerticalOptions="EndAndExpand"
-               WidthRequest="100"
-               HeightRequest="100"
-               CornerRadius="90"
-               Margin="-30,-30,-40,-30"
-               BorderColor="White"
-               IsVisible="{Binding IsNotBusy}">
-            <StackLayout>
-
-                <Button Text="{x:Static fontawesome:FontAwesomeIcons.Check}"
-                        TextColor="White"
-                        FontFamily="FAS"
-                        BackgroundColor="Transparent"
-                        HorizontalOptions="CenterAndExpand"
-                        VerticalOptions="CenterAndExpand"
-                        FontSize="50"
-                        Margin="0,-20,0,0" 
-                        Command="{Binding CheckoutItemCommad}"/>
-            </StackLayout>
-        </Frame>
-
+        <!--Preloader-->
         <ActivityIndicator IsRunning="{Binding IsBusy}"
                            HorizontalOptions="CenterAndExpand"
                            VerticalOptions="CenterAndExpand"
@@ -147,6 +124,5 @@
                            WidthRequest="200"
                            Color="{StaticResource BarBackround}"/>
     </Grid>
-
 
 </ContentPage>

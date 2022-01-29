@@ -87,6 +87,30 @@ namespace HouseCaptain.Services.Version_1
                             .ToListAsync();
             }
             
+        } 
+        
+        public static async Task<List<ShoppingItemEntity>> GetFilteredLisAsync(int HomeId,String Category,int RangeStart)
+        {
+            //Initializing connection
+            await InitializeConnection();
+
+            if(RangeStart==0)
+            {
+                return await db.Table<ShoppingItemEntity>()
+                               .Where(x => x.Status == 1 && x.HomeId == HomeId && x.Category.ToUpper().Equals(Category.ToUpper()))
+                               .Take(10)
+                               .ToListAsync();
+            }
+            else
+            {
+                return await db.Table<ShoppingItemEntity>()
+               .Where(x => x.Status == 2 && x.HomeId == HomeId && x.Category.ToUpper().Equals(Category.ToUpper()))
+               .Skip(RangeStart-1)
+               .Take(10)
+               .ToListAsync();
+            }
+
+     
         }
 
         public static async Task<ShoppingItemEntity> GetSingleShoppingItemsAsync(int Id)
@@ -147,7 +171,7 @@ namespace HouseCaptain.Services.Version_1
 
             var data = await db.Table<ShoppingItemEntity>().Where(x => x.Id == Id).FirstOrDefaultAsync();
 
-            data.Status = 3;
+            await db.DeleteAsync<ShoppingItemEntity>(data);
 
             return await db.UpdateAsync(data);
         }
