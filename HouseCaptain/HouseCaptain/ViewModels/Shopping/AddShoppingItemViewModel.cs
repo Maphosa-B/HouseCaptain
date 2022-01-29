@@ -1,5 +1,6 @@
 ﻿using HouseCaptain.Entities;
 using HouseCaptain.Services.Version_1;
+using HouseCaptain.Views.Shopping;
 using MvvmHelpers.Commands;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
@@ -96,6 +97,7 @@ namespace HouseCaptain.ViewModels.Shopping
         public AsyncCommand SelectImageCommand { get; set; }
         public AsyncCommand RemoveImageCommand { get; set; }
         public AsyncCommand AddShoppingIteCommand{ get; set; }
+        public AsyncCommand GoToRegularShoppingIyemsListCommand{ get; set; }
 
         public AddShoppingItemViewModel()
         {
@@ -113,6 +115,7 @@ namespace HouseCaptain.ViewModels.Shopping
             SelectImageCommand = new AsyncCommand(SelectAnImageAsync);
             RemoveImageCommand = new AsyncCommand(RemoveImageAsync);
             AddShoppingIteCommand = new AsyncCommand(AddShoppingItemAsync);
+            GoToRegularShoppingIyemsListCommand = new AsyncCommand(GoToRegularShoppingItemsListAsync);
         }
 
 
@@ -210,6 +213,15 @@ namespace HouseCaptain.ViewModels.Shopping
                 ImagePath = "";
             }
             return;
+        }  
+        
+        async Task GoToRegularShoppingItemsListAsync()
+        {
+            IsBusy = true;
+            IsNotBusy = false;
+            await Shell.Current.GoToAsync($"{nameof(RegularShoppingItemsListPage)}?HomeId={_HomeId}");           
+            IsBusy = false;
+            IsNotBusy = true;           
         } 
         
         

@@ -179,7 +179,8 @@
                     HorizontalOptions="CenterAndExpand"
                     VerticalOptions="CenterAndExpand"
                     FontSize="40"
-                    Margin="-40,-40,0,0" />
+                    Margin="-40,-40,0,0"
+                    Command="{Binding GoToRegularShoppingIyemsListCommand}"/>
 
         </Frame>
 

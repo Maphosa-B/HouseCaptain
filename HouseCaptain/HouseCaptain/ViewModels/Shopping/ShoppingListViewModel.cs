@@ -60,11 +60,8 @@ namespace HouseCaptain.ViewModels.Shopping
             GoToAddShoppingItemPageCommand = new AsyncCommand(GoToAddShoppingItemAsync);
             GoToShoppingListHistoryPageCommand = new AsyncCommand(GoToShoppingListHistoryAsync);
             GoToSingleShoppingItemPageCommand = new AsyncCommand(GoToSingleShoppingItemAsync);
-            GoToSelectedHomeSettingsCommand = new AsyncCommand(GoToSelectedHomeSettingsAsync);
-          
+            GoToSelectedHomeSettingsCommand = new AsyncCommand(GoToSelectedHomeSettingsAsync);          
             GetListOfItemFromDbCommand = new AsyncCommand(GetShoppingList);
-
-            FilterAlistCommand = new AsyncCommand(GetFilteredShoppingList);
 
             IsNavigated = 0;
         }
@@ -146,7 +143,7 @@ namespace HouseCaptain.ViewModels.Shopping
             }
            
 
-            var temItemsList =  await ShoppingService.GetAllShoppingItemsAsync(Convert.ToInt32(_HomeId));
+            var temItemsList =  await ShoppingService.GetAInitialShoppingItemsAsync(Convert.ToInt32(_HomeId));
 
             List<ShoppingItemModel> listOfShoppingItemModel = new List<ShoppingItemModel>();
            
@@ -175,48 +172,6 @@ namespace HouseCaptain.ViewModels.Shopping
             IsNotBusy = true;
         } 
         
-        async Task GetFilteredShoppingList()
-        {
-
-            IsBusy = true;
-            IsNotBusy = false;
-
-            //Clearing List
-            if (ShoppingList!=null)
-            {
-                ShoppingList.Clear();
-            }
-           
-
-            var temItemsList =  await ShoppingService.GetFilteredLisAsync(Convert.ToInt32(_HomeId),SelectedFilter,_RangeStart);
-
-            List<ShoppingItemModel> listOfShoppingItemModel = new List<ShoppingItemModel>();
-           
-            foreach(var i in temItemsList)
-            {
-                ShoppingItemModel aa = new ShoppingItemModel
-                {
-                    Id = i.Id,
-                    ImgUrl = i.ImgUrl,
-                    Name = i.Name.Truncate(18, "..."),
-                    CategoryId = 1,
-                    Notes = i.Notes.Truncate(35, "..."),
-                    Quantity = i.Quantity,
-                    QuantityType = i.QuantityType
-                };
-
-                listOfShoppingItemModel.Add(aa);
-            }
-
-            if (listOfShoppingItemModel != null)
-            {
-                ShoppingList.AddRange(listOfShoppingItemModel);
-            }
-
-            IsBusy = false;
-            IsNotBusy = true;
-        }
-
         //Getting a sent Id From shell urlParameter
         public void ApplyQueryAttributes(IDictionary<string, string> query)
         {

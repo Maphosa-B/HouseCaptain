@@ -56,7 +56,7 @@ namespace HouseCaptain.ViewModels.Shopping
 
             ShoppingListHistory.Clear();
 
-            var tempList = await ShoppingService.GetShoppingItemsHistoryAsync(Convert.ToInt32(HomeId), null);
+            var tempList = await ShoppingService.GetShoppingItemsHistoryAsync(Convert.ToInt32(HomeId),0);
             var tempModelsList = new List<ShoppingItemModel>();
             
             foreach(var i in tempList)

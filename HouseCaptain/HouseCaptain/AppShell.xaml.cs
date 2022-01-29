@@ -21,6 +21,7 @@ namespace HouseCaptain
             Routing.RegisterRoute(nameof(ViewSingleShoppingItemPage), typeof(ViewSingleShoppingItemPage));
             Routing.RegisterRoute(nameof(ShoppingListPage), typeof(ShoppingListPage));
             Routing.RegisterRoute(nameof(ViewSingleHistoryItem), typeof(ViewSingleHistoryItem));
+            Routing.RegisterRoute(nameof(RegularShoppingItemsListPage), typeof(RegularShoppingItemsListPage));
 
             //Routing of Homes
             Routing.RegisterRoute(nameof(AddHomePage), typeof(AddHomePage));
