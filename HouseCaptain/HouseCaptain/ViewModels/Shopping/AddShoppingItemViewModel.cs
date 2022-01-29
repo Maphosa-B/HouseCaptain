@@ -202,8 +202,11 @@ namespace HouseCaptain.ViewModels.Shopping
 
         async Task RemoveImageAsync()
         {
+            IsBusy = true;
+            IsNotBusy = false;
+
             //First need confirmation from user to remove it
-            if("Yes".Equals( await Application.Current.MainPage.DisplayActionSheet("Are you sure you want to remove the image?","No","Yes")))
+            if ("Yes".Equals( await Application.Current.MainPage.DisplayActionSheet("Are you sure you want to remove the image?","No","Yes")))
             {
                 //Image controls flags
                 IsImageAvailable = false;
@@ -212,6 +215,9 @@ namespace HouseCaptain.ViewModels.Shopping
                 //Clearing image path of previous captured of selected image
                 ImagePath = "";
             }
+
+            IsBusy = false;
+            IsNotBusy = true;
             return;
         }  
         
@@ -219,7 +225,10 @@ namespace HouseCaptain.ViewModels.Shopping
         {
             IsBusy = true;
             IsNotBusy = false;
-            await Shell.Current.GoToAsync($"{nameof(RegularShoppingItemsListPage)}?HomeId={_HomeId}");           
+
+            await Shell.Current.GoToAsync($"{nameof(RegularShoppingItemsListPage)}?HomeId={_HomeId}");   
+            
+
             IsBusy = false;
             IsNotBusy = true;           
         } 
@@ -227,6 +236,9 @@ namespace HouseCaptain.ViewModels.Shopping
         
         async Task AddShoppingItemAsync()
         {
+            IsBusy = true;
+            IsNotBusy = false;
+
             //Validating inputs
             if(String.IsNullOrEmpty(ItemName))
             {
@@ -269,9 +281,7 @@ namespace HouseCaptain.ViewModels.Shopping
             var Status = await ShoppingService.AddShoppingItemAsync(Item);
 
             if(Status>0)
-            {
-                await Application.Current.MainPage.DisplayAlert(null, $"{ItemName} has been added", "Okay");
-               
+            {               
                 await Shell.Current.GoToAsync("..");
             }
             else
@@ -279,6 +289,9 @@ namespace HouseCaptain.ViewModels.Shopping
                 await Application.Current.MainPage.DisplayAlert(null, "There was an error, item was not added. Please try again", "Okay");
                 return;
             }
+
+            IsBusy = false;
+            IsNotBusy = true;
         }
 
 

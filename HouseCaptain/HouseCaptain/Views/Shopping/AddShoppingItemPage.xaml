@@ -64,7 +64,8 @@
 
         <!--`This below stack layout encapsulate form elements-->
         <StackLayout Padding="20"
-                     VerticalOptions="CenterAndExpand">
+                     VerticalOptions="CenterAndExpand"
+                     IsVisible="{Binding IsNotBusy}">
             <ScrollView>
                 <StackLayout>
                     <Entry Placeholder="Name"
@@ -170,7 +171,8 @@
                HeightRequest="100"
                CornerRadius="70"
                Margin="100,0,20,-70"
-               BorderColor="White">
+               BorderColor="White"
+               IsVisible="{Binding IsNotBusy}">
 
             <Button Text="{x:Static fontawesome:FontAwesomeIcons.Recycle}"
                     TextColor="White"
@@ -193,7 +195,8 @@
                HeightRequest="100"
                CornerRadius="90"
                Margin="-30,-30,-40,-30"
-               BorderColor="White">
+               BorderColor="White"
+               IsVisible="{Binding IsNotBusy}">
 
             <Frame.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding AddShoppingIteCommand}"/>
@@ -212,6 +215,12 @@
             </StackLayout>
         </Frame>
 
+        <ActivityIndicator IsRunning="{Binding IsBusy}"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="CenterAndExpand"
+                    HeightRequest="100"
+                    WidthRequest="200"
+                    Color="{StaticResource BarBackround}"/>
 
 
     </Grid>
