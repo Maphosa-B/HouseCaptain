@@ -243,18 +243,24 @@ namespace HouseCaptain.ViewModels.Shopping
             if(String.IsNullOrEmpty(ItemName))
             {
                 await Application.Current.MainPage.DisplayAlert(null, "Name cannot be blank", "Okay");
+                IsBusy = false;
+                IsNotBusy = true;
                 return;
             }
 
             if (String.IsNullOrEmpty(Category))
             {
                 await Application.Current.MainPage.DisplayAlert(null, "Please select a category of the item", "Okay");
+                IsBusy = false;
+                IsNotBusy = true;
                 return;
             }
 
             if (IsQuantityValid==false || String.IsNullOrEmpty(Quantity))
             {
                 await Application.Current.MainPage.DisplayAlert(null, "Please enter a quantity", "Okay");
+                IsBusy = false;
+                IsNotBusy = true;
                 return;
             }
 
@@ -271,7 +277,7 @@ namespace HouseCaptain.ViewModels.Shopping
             //if a user doe not select or capture an image for that item then we use our display image
             if(String.IsNullOrEmpty(ImagePath))
             {
-                Item.ImgUrl = $"{Category.Trim()}.jpg";
+                Item.ImgUrl = $"{Category.Replace(" ","")}.jpg";
             }else
             {
                 Item.ImgUrl = ImagePath;

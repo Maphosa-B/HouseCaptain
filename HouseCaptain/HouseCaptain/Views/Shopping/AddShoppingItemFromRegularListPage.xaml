@@ -1,29 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:fontAwesome="clr-namespace:FontAwesome"
              xmlns:ViewModels.Shopping="clr-namespace:HouseCaptain.ViewModels.Shopping"
-             xmlns:fontawesome="clr-namespace:FontAwesome"
-             x:Class="HouseCaptain.Views.Shopping.ViewSingleShoppingItemPage"
-             Title="{Binding Title}"
-             ControlTemplate="{StaticResource DecorationTemplate}">
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="HouseCaptain.Views.Shopping.AddShoppingItemFromRegularListPage"
+             x:DataType="ViewModels.Shopping:AddShoppingItemFromRegularListViewModel"
+             ControlTemplate="{StaticResource DecorationTemplate}"
+             Title="{Binding Title}">
 
-
-    <ContentPage.Behaviors>
-        <xct:EventToCommandBehavior EventName="Appearing" Command="{Binding PopulateItemDataCommad}" />
-    </ContentPage.Behaviors>
-    
     <ContentPage.BindingContext>
-        <ViewModels.Shopping:ViewSingleShoppingItemViewModel/>
+        <ViewModels.Shopping:AddShoppingItemFromRegularListViewModel/>
     </ContentPage.BindingContext>
 
-    
+    <ContentPage.Behaviors>
+        <xct:EventToCommandBehavior EventName="Appearing" Command="{Binding GetSingleItemDataCommand}" />
+    </ContentPage.Behaviors>
+
     <Grid Margin="3" 
           IsVisible="{Binding IsNotBusy}">
 
         <ScrollView IsVisible="{Binding IsNotBusy}"
                     Padding="0,0,0,90">
-            <StackLayout IsVisible="{Binding IsNotBusy}">
+            <StackLayout IsVisible="{Binding IsNotBusy}"
+                         >
 
                 <Frame Padding="0" HeightRequest="500">
                     <StackLayout>
@@ -34,26 +34,13 @@
 
                         <StackLayout Orientation="Horizontal"
                                      Margin="0,0,10,0">
-                            <Label Text="{Binding Name}"
+                            <Label Text="{Binding ItemName}"
                                    Margin="10,0,0,0"
-                                   HorizontalOptions="StartAndExpand"
+                                   HorizontalOptions="CenterAndExpand"
                                    TextColor="{StaticResource BarBackround}"
                                    FontSize="30"/>
-
-                            <StackLayout Orientation="Horizontal"
-                                         TranslationY="5">
-
-                                <Label Text="{Binding Quantity}"
-                                       FontSize="23"
-                                        TextColor="{StaticResource BarBackround}"/>
-
-                                <Label Text="{Binding QuantityType}"
-                                       FontSize="23"
-                                       TextColor="{StaticResource BarBackround}"/>
-
-                            </StackLayout>
-
                         </StackLayout>
+                        
                         <BoxView BackgroundColor="{StaticResource BarBackround}"
                                  HeightRequest="3"
                                  WidthRequest="200"
@@ -76,50 +63,56 @@
                     </StackLayout>
                 </Frame>
 
+                <!--`This below stack layout encapsulate form elements-->
+                <StackLayout VerticalOptions="CenterAndExpand"
+                             Margin="0,-160,0,0"
+                             Padding="5"
+                     IsVisible="{Binding IsNotBusy}">
+                    
+                    <ScrollView>
+                        <StackLayout>
+
+                            <StackLayout Orientation="Horizontal">
+                                <Entry Placeholder="Quantity"
+                                       Text="{Binding Quantity}"
+                                       HorizontalOptions="FillAndExpand"
+                                       Margin="0,0,0,0"
+                                       Keyboard="Numeric"
+                                       PlaceholderColor="{StaticResource BarBackround}" >
+
+                                    <Entry.Behaviors>
+                                        <xct:NumericValidationBehavior MinimumValue="1"
+                                                               MaximumValue="1000"
+									                           InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                                               IsValid="{Binding IsQuantityValid}"
+                                                               Flags="ValidateOnUnfocusing"/>
+                                    </Entry.Behaviors>
+                                </Entry>
+
+
+                                <Picker ItemsSource="{Binding QuantityTypes}"
+                                HorizontalOptions="FillAndExpand"
+                                SelectedItem="{Binding QuantityType}"/>
+                            </StackLayout>
 
 
 
-                <!--Section of details-->
-                <Frame BackgroundColor="{StaticResource BarBackround}"
-                       IsVisible="{Binding IsNotBusy}">
 
-                    <StackLayout>
+                            <Editor IsSpellCheckEnabled="True"
+                                    AutoSize="TextChanges"
+                                    Placeholder="Notes ( Optional )"
+                                    Margin="0,20,0,0"
+                                    Text="{Binding Notes}"
+                                    PlaceholderColor="{StaticResource BarBackround}"/>
 
-
-                        <!--Date of adding item-->
-                        <StackLayout Orientation="Horizontal">
-                            <Label Text="{x:Static fontawesome:FontAwesomeIcons.CalendarPlus}"
-                                    FontFamily="FAS"
-                                    FontSize="23"
-                                    TextColor="White"/>
-
-                            <Label Text="{Binding AddDate}"
-                                    FontSize="23"
-                                    TranslationY="-3"
-                                    TextColor="White"/>
                         </StackLayout>
+                    </ScrollView>
+                </StackLayout>
 
-                    </StackLayout>
-                </Frame>
 
-                <!--Section of notes-->
-                <Frame BackgroundColor="{StaticResource BarBackround}"
-                       Padding="10,0,0,0"
-                       IsVisible="{Binding AreNotesAdded}">
-                    <StackLayout VerticalOptions="StartAndExpand"
-                                 Margin="0"
-                                 Padding="10">
-                        <Label Text="{Binding Notes}"
-                               FontSize="23"
-                               TranslationY="-3"
-                              TextColor="White"/>
-                    </StackLayout>
-                </Frame>
             </StackLayout>
         </ScrollView>
 
-
-        <!--Button to view history of grocery list-->
         <Frame BackgroundColor="{StaticResource BarBackround}"
                HorizontalOptions="EndAndExpand"
                VerticalOptions="EndAndExpand"
@@ -127,19 +120,21 @@
                HeightRequest="100"
                CornerRadius="70"
                Margin="100,0,20,-70"
-               BorderColor="White">
+               BorderColor="White"
+               IsVisible="{Binding IsNotBusy}">
 
-            <Button Text="{x:Static fontawesome:FontAwesomeIcons.Trash}"
+            <Button Text="{x:Static fontAwesome:FontAwesomeIcons.Trash}"
                     TextColor="White"
                     FontFamily="FAS"
                     BackgroundColor="Transparent"
                     HorizontalOptions="CenterAndExpand"
                     VerticalOptions="CenterAndExpand"
-                    FontSize="30"
-                    Margin="-40,-40,0,0" 
-                   Command="{Binding CancelItemCommad}"/>
+                    FontSize="40"
+                    Margin="-40,-40,0,0"
+                    Command="{Binding DeleteItemCommand}"/>
 
         </Frame>
+
 
         <!--Button to add Item-->
         <Frame BackgroundColor="{StaticResource BarBackround}"
@@ -149,18 +144,23 @@
                HeightRequest="100"
                CornerRadius="90"
                Margin="-30,-30,-40,-30"
-               BorderColor="White">
+               BorderColor="White"
+               IsVisible="{Binding IsNotBusy}">
+
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding AddItemCommand}"/>
+            </Frame.GestureRecognizers>
+
             <StackLayout>
 
-                <Button Text="{x:Static fontawesome:FontAwesomeIcons.Check}"
+                <Button Text="+"
                         TextColor="White"
-                        FontFamily="FAS"
                         BackgroundColor="Transparent"
                         HorizontalOptions="CenterAndExpand"
                         VerticalOptions="CenterAndExpand"
-                        FontSize="50"
-                        Margin="0,-20,0,0" 
-                        Command="{Binding CheckoutItemCommad}"/>
+                        FontSize="70"
+                        Margin="0,-20,0,0"
+                        Command="{Binding AddItemCommand}"/>
             </StackLayout>
         </Frame>
 

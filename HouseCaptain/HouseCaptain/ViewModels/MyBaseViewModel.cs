@@ -1,19 +1,36 @@
 ﻿using MvvmHelpers;
+using MvvmHelpers.Commands;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace HouseCaptain.ViewModels
 {
     public class MyBaseViewModel:BaseViewModel
     {
+        protected bool _IsLoadingMore;
+
+
+
+
         public List<String> ShoppingItemCategoriesList { get; set; }
         public List<String> QuantityTypes { get; set; }
 
+        public bool IsLoadingMore 
+        { 
+            get => _IsLoadingMore; 
+            set => SetProperty(ref _IsLoadingMore,value); 
+        }
+
         public MyBaseViewModel()
         {
+
+            ShoppingItemCategoriesList = new List<string>();
+
+
             //Initializing Categories list
-            ShoppingItemCategoriesList = new List<string>
+            List<string> tempList = new List<string>
             {
                 "Fruits",
                 "Vagetables",
@@ -23,23 +40,25 @@ namespace HouseCaptain.ViewModels
                 "Meat",
                 "Fish and shellfish",
                 "Deli",
-                "Condiments & Spices",
-                "Sauces & Oils",
+                "Condiments and Spices",
+                "Sauces and Oils",
                 "Snacks",
-                "Bread & Bakery",
-                "Beverages",
-                "Pasta/Rice",
+                "Bread and Bakery",
+                "Pasta or Rice",
                 "Baking",
                 "Personal Care",
                 "Health Care",
-                "Paper & Wrap",
+                "Paper and Wrap",
                 "Household Supplies",
                 "Baby Items",
-                "Electric Appliance",
-                "Gadget",
+                "Electric Appliances",
+                "Gadgets",
                 "Gardening",
-                "Other"
+
             };
+
+            ShoppingItemCategoriesList = tempList.OrderBy(x => x).ToList();
+            ShoppingItemCategoriesList.Add("Other");
 
 
             QuantityTypes = new List<string>
@@ -48,7 +67,7 @@ namespace HouseCaptain.ViewModels
                 "Packs",
                 "g",
                 "Kg",
-                "mm",
+                "ml",
                 "L",           
             };
         }

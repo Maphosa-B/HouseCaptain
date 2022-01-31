@@ -122,7 +122,7 @@ namespace HouseCaptain.ViewModels.Shopping
                 IsBusy = true;
                 IsNotBusy = false;
 
-                var Status = await ShoppingService.CamcelItemAsync(Convert.ToInt32(ItemId));
+                var Status = await ShoppingService.CancelItemAsync(Convert.ToInt32(ItemId));
 
                 if (Status > 0)
                 {

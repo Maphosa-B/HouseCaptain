@@ -25,11 +25,34 @@
                         IsVisible="{Binding IsNotBusy}"
                         SelectionMode="Single"
                         SelectionChangedCommand="{Binding GoToSingleShoppingItemPageCommand}"
-                        SelectedItem="{Binding SelectedItem}">
+                        SelectedItem="{Binding SelectedItem}"
+                        RemainingItemsThreshold="2"
+                        RemainingItemsThresholdReachedCommand="{Binding LoadMoreItemCommand}">
 
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
             </CollectionView.ItemsLayout>
+
+            <!--Will display loading indicator when loading moreitems-->
+            <CollectionView.Footer>
+                <StackLayout>
+                    <StackLayout IsVisible="{Binding IsLoadingMore}"
+                             Margin="0,0,0,0">
+                        <ActivityIndicator IsRunning="True"
+                                           HorizontalOptions="CenterAndExpand"
+                                           VerticalOptions="CenterAndExpand"
+                                           HeightRequest="50"
+                                           WidthRequest="50"
+                                           Color="{StaticResource BarBackround}"/>
+                        <Label Text="Loading more items..."
+                           HorizontalOptions="CenterAndExpand"
+                           TextColor="{StaticResource BarBackround}"/>
+
+
+                    </StackLayout>
+                </StackLayout>
+            </CollectionView.Footer>
+
 
             <CollectionView.EmptyView >
 

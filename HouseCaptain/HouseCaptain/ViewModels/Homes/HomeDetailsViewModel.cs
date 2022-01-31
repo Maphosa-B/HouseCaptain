@@ -105,6 +105,8 @@ namespace HouseCaptain.ViewModels.Homes
             }
             else
             {
+                IsBusy = false;
+                IsNotBusy = true;
                 return;
             }
 

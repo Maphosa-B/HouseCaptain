@@ -17,7 +17,7 @@ namespace HouseCaptain.Services.Version_1
         {
             if (db == null)
             {
-                String path = Path.Combine(FileSystem.AppDataDirectory, "Tracky.db");
+                String path = Path.Combine(FileSystem.AppDataDirectory, "HouseCaptain.db");
                 db = new SQLiteAsyncConnection(path);
 
                 //if db is null then we create connection and create Homses table

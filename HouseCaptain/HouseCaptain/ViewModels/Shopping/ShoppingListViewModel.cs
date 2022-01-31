@@ -7,6 +7,7 @@ using MvvmHelpers;
 using MvvmHelpers.Commands;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -19,7 +20,8 @@ namespace HouseCaptain.ViewModels.Shopping
     {
      
         //Will be used as a flag to prevent doublenavigation while loading
-        private int IsNavigated { get; set; } = 0;
+        private int IsNavigated = 0;
+        private int Range { get; set; } = 0;
         private string _HomeId { get; set; }
 
         private String _SelectedFilter;
@@ -45,16 +47,16 @@ namespace HouseCaptain.ViewModels.Shopping
         public AsyncCommand GoToSingleShoppingItemPageCommand { get; set; }
         public AsyncCommand GoToSelectedHomeSettingsCommand { get; set; }
         public AsyncCommand GetListOfItemFromDbCommand { get; set; }
-        public AsyncCommand FilterAlistCommand { get; set; }
+        public AsyncCommand LoadMoreItemCommand { get; set; }
 
         public ShoppingListViewModel()
         {
             IsNavigated = 0;
-
             ShoppingList = new ObservableRangeCollection<ShoppingItemModel>();
 
             
             Title = "Home Shopping List";
+            IsLoadingMore = false;
 
             //Activating Commands
             GoToAddShoppingItemPageCommand = new AsyncCommand(GoToAddShoppingItemAsync);
@@ -62,6 +64,7 @@ namespace HouseCaptain.ViewModels.Shopping
             GoToSingleShoppingItemPageCommand = new AsyncCommand(GoToSingleShoppingItemAsync);
             GoToSelectedHomeSettingsCommand = new AsyncCommand(GoToSelectedHomeSettingsAsync);          
             GetListOfItemFromDbCommand = new AsyncCommand(GetShoppingList);
+            LoadMoreItemCommand = new AsyncCommand(LoadMoreshoppingListAsync);
 
             IsNavigated = 0;
         }
@@ -131,7 +134,6 @@ namespace HouseCaptain.ViewModels.Shopping
 
         async Task GetShoppingList()
         {
-
             IsBusy = true;
             IsNotBusy = false;
 
@@ -170,6 +172,44 @@ namespace HouseCaptain.ViewModels.Shopping
 
             IsBusy = false;
             IsNotBusy = true;
+        }     
+        
+        
+        async Task LoadMoreshoppingListAsync()
+        {
+            if(ShoppingList.Count>11)
+            {
+                IsLoadingMore = true;
+
+                Range += 3;
+                var temItemsList = await ShoppingService.LoadMoreShoppingItemsAsync(Convert.ToInt32(_HomeId), Range);
+
+                List<ShoppingItemModel> listOfShoppingItemModel = new List<ShoppingItemModel>();
+
+                foreach (var i in temItemsList)
+                {
+                    ShoppingItemModel aa = new ShoppingItemModel
+                    {
+                        Id = i.Id,
+                        ImgUrl = i.ImgUrl,
+                        Name = i.Name.Truncate(18, "..."),
+                        CategoryId = 1,
+                        Notes = i.Notes.Truncate(35, "..."),
+                        Quantity = i.Quantity,
+                        QuantityType = i.QuantityType
+                    };
+
+                    listOfShoppingItemModel.Add(aa);
+                }
+
+                if (listOfShoppingItemModel != null)
+                {
+                    ShoppingList.AddRange(listOfShoppingItemModel);
+                    ShoppingList.OrderBy(x => x.CategoryId);
+                }
+
+                IsLoadingMore = false;
+            }      
         } 
         
         //Getting a sent Id From shell urlParameter

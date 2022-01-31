@@ -15,5 +15,7 @@ namespace HouseCaptain.Entities
         public String QuantityType { get; set; }
 
         public int HomeId { get; set; }
+
+        public String Category { get; set; }
     }
 }

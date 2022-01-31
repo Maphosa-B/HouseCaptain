@@ -13,33 +13,15 @@ namespace HouseCaptain.Services.Version_1
     public class ShoppingService
     {
         private static SQLiteAsyncConnection db;
-        private static SQLiteAsyncConnection db2;
         private static async Task InitializeConnection()
         {
             if (db == null)
             {
-                String path = Path.Combine(FileSystem.AppDataDirectory, "Tracky.db");
+                String path = Path.Combine(FileSystem.AppDataDirectory, "HouseCaptain.db");
                 db = new SQLiteAsyncConnection(path);
 
                 //if db is null then we create connection and create Homses table
-                await db.CreateTableAsync<ShoppingItemEntity>();
-
-            }
-            else
-            {
-                return;
-            }
-        }
-
-        private static async Task InitializeConnectionRegulatItemsTable()
-        {
-            if (db2 == null)
-            {
-                String path = Path.Combine(FileSystem.AppDataDirectory, "Tracky.db");
-                db2 = new SQLiteAsyncConnection(path);
-
-                //if db is null then we create connection and create Homses table
-                await db2.CreateTableAsync<RegularItemsEntity>();
+                await db.CreateTablesAsync<ShoppingItemEntity, RegularItemsEntity>();
 
             }
             else
@@ -79,42 +61,35 @@ namespace HouseCaptain.Services.Version_1
             return await db.Table<ShoppingItemEntity>()
                             .Where(x => x.Status == 1 && x.HomeId==HomeId )
                             .OrderBy(x => x.Category)
-                            .Take(10)
+                            .Take(12)
                             .ToListAsync();
-        }
+        }   
+        
 
-        public static async Task<List<ShoppingItemEntity>> GetShoppingItemsHistoryAsync(int HomeId,int Range)
+
+        public static async Task<List<ShoppingItemEntity>> GetInitialShoppingItemsHistoryAsync(int HomeId)
         {
-            //Initializing connection
+          
             await InitializeConnection();
 
-            if(Range==0)
-            {
-                return await db.Table<ShoppingItemEntity>()
-                                .Where(x => x.Status == 2 && x.HomeId == HomeId)
-                                .OrderBy(x => x.Category)
-                                .Take(10)
-                                .ToListAsync();
-            }
-            else
-            {
-                return await db.Table<ShoppingItemEntity>()
-                                .Where(x => x.Status == 2 && x.HomeId == HomeId)
-                                .OrderBy(x => x.Category)
-                                .Skip(Range - 1)
-                                .Take(10)
-                                .ToListAsync();
-            }
+            return await db.Table<ShoppingItemEntity>()
+                            .Where(x => x.Status == 2 && x.HomeId == HomeId)
+                            .OrderBy(x => x.Category)
+                            .Take(12)
+                            .ToListAsync();
         } 
         
         public static async Task<List<RegularItemsEntity>> GetInitialRegulaItemsAsync(int HomeId)
         {
             //Initializing connection
-            await InitializeConnectionRegulatItemsTable();
+            await InitializeConnection();
+            return await db.Table<RegularItemsEntity>()
+                    .Where(x => x.Status == 1 && x.HomeId == HomeId)
+                    .OrderBy(x => x.Category)
+                    .Take(12)
+                    .ToListAsync();
 
-            return await db2.Table<RegularItemsEntity>()
-                            .Where(x => x.Status == 1 && x.HomeId == HomeId)
-                            .ToListAsync();
+           
         }
 
         public static async Task<ShoppingItemEntity> GetSingleShoppingItemsAsync(int Id)
@@ -123,6 +98,16 @@ namespace HouseCaptain.Services.Version_1
             await InitializeConnection();
 
             return await db.Table<ShoppingItemEntity>()
+                        .Where(x => x.Id == Id)
+                        .FirstOrDefaultAsync();
+        }
+
+        public static async Task<RegularItemsEntity> GetSingleRegularShoppingItemsAsync(int Id)
+        {
+            //Initializing connection
+            await InitializeConnection();
+
+            return await db.Table<RegularItemsEntity>()
                         .Where(x => x.Id == Id)
                         .FirstOrDefaultAsync();
         }
@@ -137,6 +122,15 @@ namespace HouseCaptain.Services.Version_1
 
             data.Status = 0;
             return await db.UpdateAsync(data);
+        }
+        
+        public static async Task<int> DeleteRegularItemAsync(int Id)
+        {
+            //Initializing connection
+            await InitializeConnection();
+
+            return await db.DeleteAsync<RegularItemsEntity>(Id);
+           
         }
 
         public static async Task<int> UpdateShoppingItemAsync(ShoppingItemEntity ShoppingItem)
@@ -161,16 +155,14 @@ namespace HouseCaptain.Services.Version_1
             //Initializing connection
             await InitializeConnection();
 
-            //Initialize Regular items table
-            await InitializeConnectionRegulatItemsTable();
 
             var data = await db.Table<ShoppingItemEntity>().Where(x => x.Id == Id).FirstOrDefaultAsync();
 
 
             //Check if an item with same name and Image and Quantity type has been addded before to regular table else add new record
 
-            var CheckItemOnRegularTable = await db2.Table<RegularItemsEntity>()
-                                            .Where(x => x.Name.ToUpper().Equals(data.Name.ToUpper()) && x.ImgUrl.ToUpper().Equals(data.ImgUrl))
+            var CheckItemOnRegularTable = await db.Table<RegularItemsEntity>()
+                                            .Where(x => x.Name.ToUpper().Equals(data.Name.ToUpper()))
                                             .FirstOrDefaultAsync();
 
             //if it exists we append it add num which will be used to list them in regular lis
@@ -182,11 +174,12 @@ namespace HouseCaptain.Services.Version_1
                     ImgUrl = data.ImgUrl,
                     QuantityType = data.QuantityType,
                     Name = data.Name ,
-                    HomeId = data.HomeId
+                    HomeId = data.HomeId,
+                    Category = data.Category
                 };
 
                 //Adding the itemto the list
-               await  db2.InsertAsync(regularItem);
+               await  db.InsertAsync(regularItem);
 
             }else
             {
@@ -198,7 +191,7 @@ namespace HouseCaptain.Services.Version_1
             return await db.UpdateAsync(data);
         }
 
-        public static async Task<int> CamcelItemAsync(int Id)
+        public static async Task<int> CancelItemAsync(int Id)
         {
             //Initializing connection
             await InitializeConnection();
@@ -206,6 +199,45 @@ namespace HouseCaptain.Services.Version_1
             var data = await db.Table<ShoppingItemEntity>().Where(x => x.Id == Id).FirstOrDefaultAsync();
 
             return await db.DeleteAsync<ShoppingItemEntity>(Id);
+        }
+
+        //--------------------------------Below function are made to collect more data
+        public static async Task<List<ShoppingItemEntity>> LoadMoreShoppingItemsAsync(int HomeId, int Range)
+        {
+            //Initializing connection
+            await InitializeConnection();
+
+            return await db.Table<ShoppingItemEntity>()
+                            .Where(x => x.Status == 1 && x.HomeId == HomeId)
+                            .OrderBy(x => x.Category)
+                            .Skip(Range + 12)
+                            .Take(3)
+                            .ToListAsync();
+        }
+        public static async Task<List<ShoppingItemEntity>> LoadMoreShoppingItemsHistoryAsync(int HomeId, int Range)
+        {
+            //Initializing connection
+            await InitializeConnection();
+
+            return await db.Table<ShoppingItemEntity>()
+                           .Where(x => x.Status == 2 && x.HomeId == HomeId)
+                           .OrderBy(x => x.Category)
+                           .Skip(Range + 12)
+                            .Take(3)
+                           .ToListAsync();
+        }
+
+        public static async Task<List<RegularItemsEntity>> LoadMoreRegularItemsAsync(int HomeId, int Range)
+        {
+            //Initializing connection
+            await InitializeConnection();
+
+            return await db.Table<RegularItemsEntity>()
+                           .Where(x => x.Status == 2 && x.HomeId == HomeId)
+                           .OrderBy(x => x.Category)
+                           .Skip(Range + 12)
+                           .Take(3)
+                           .ToListAsync();
         }
 
     }

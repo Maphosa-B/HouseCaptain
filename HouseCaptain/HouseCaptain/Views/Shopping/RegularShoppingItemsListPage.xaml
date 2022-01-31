@@ -14,7 +14,6 @@
         <ViewModels.Shopping:RegularShoppingItemsListViewModel/>
     </ContentPage.BindingContext>
 
-
     <ContentPage.Behaviors>
         <xct:EventToCommandBehavior EventName="Appearing" Command="{Binding GetRegularItemsCommand}" />
     </ContentPage.Behaviors>
@@ -23,7 +22,11 @@
         <!--List of groceries-->
         <CollectionView ItemsSource="{Binding ItemsList}"
                         IsVisible="{Binding IsNotBusy}"
-                        SelectionMode="Single">
+                        SelectionMode="Single"
+                        SelectedItem="{Binding SelectedItem}"
+                        SelectionChangedCommand="{Binding GoToAddSelectedItemCommand}"
+                        RemainingItemsThreshold="3"
+                        RemainingItemsThresholdReachedCommand="{Binding LoadMoreItemsCommand}">
 
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
@@ -33,7 +36,8 @@
 
                 <StackLayout VerticalOptions="CenterAndExpand"
                                  HorizontalOptions="CenterAndExpand">
-                    <Label Text="You don't have any items on this shopping list"
+                   
+                    <Label Text="You don't have any recent purchased items"
                                HorizontalOptions="CenterAndExpand"
                                VerticalOptions="CenterAndExpand"
                                FontSize="20"
@@ -106,50 +110,6 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-
-
-        <!--Button to view history of grocery list-->
-        <Frame BackgroundColor="{StaticResource BarBackround}"
-               HorizontalOptions="EndAndExpand"
-               VerticalOptions="EndAndExpand"
-               WidthRequest="120"
-               HeightRequest="100"
-               CornerRadius="70"
-               Margin="100,0,20,-70"
-               BorderColor="White">
-
-            <Button Text="{x:Static fontawesome:FontAwesomeIcons.Trash}"
-                    TextColor="White"
-                    FontFamily="FAS"
-                    BackgroundColor="Transparent"
-                    HorizontalOptions="CenterAndExpand"
-                    VerticalOptions="CenterAndExpand"
-                    FontSize="40"
-                    Margin="-40,-40,0,0" />
-
-        </Frame>
-
-        <!--Button to add Item-->
-        <Frame BackgroundColor="{StaticResource BarBackround}"
-               HorizontalOptions="EndAndExpand"
-               VerticalOptions="EndAndExpand"
-               WidthRequest="100"
-               HeightRequest="100"
-               CornerRadius="90"
-               Margin="-30,-30,-40,-30"
-               BorderColor="White">
-            <StackLayout>
-
-                <Button Text="{x:Static fontawesome:FontAwesomeIcons.Pencil}"
-                        TextColor="White"
-                        FontFamily="FAS"
-                        BackgroundColor="Transparent"
-                        HorizontalOptions="CenterAndExpand"
-                        VerticalOptions="CenterAndExpand"
-                        FontSize="40"
-                        Margin="0,-20,0,0"/>
-            </StackLayout>
-        </Frame>
 
         <ActivityIndicator IsRunning="{Binding IsBusy}"
                            HorizontalOptions="CenterAndExpand"
